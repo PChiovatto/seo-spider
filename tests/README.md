@@ -1,5 +1,7 @@
 # Testes — SEO Spider
 
+**Português** · [English](README.en.md)
+
 ## Como rodar
 
 ```

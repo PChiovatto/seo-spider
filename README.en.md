@@ -116,7 +116,7 @@ so it is not exposed to the network.
 tests.bat          # fast suite (unittest, no extra dependencies)
 tests.bat full     # suite + regression check with a real crawl
 ```
-Details in [tests/README.md](tests/README.md) (Portuguese).
+Details in [tests/README.en.md](tests/README.en.md).
 
 ## Structure
 
