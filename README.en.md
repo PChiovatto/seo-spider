@@ -71,13 +71,22 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 
 ## Running it
 
-Requirements: **Python 3.10+** (tested on 3.13) and Windows. On Linux/macOS the commands below work with the venv path adjusted.
+Requirements: **Python 3.10+** (tested on 3.13) on Windows, Linux or macOS.
 
 ### Quick start (Windows)
 Double-click `run.bat`. It creates the virtual environment, installs dependencies, starts the server and
 opens <http://127.0.0.1:8765> in your browser.
 
-### Manual
+### Quick start (Linux/macOS)
+From the project directory, run:
+```bash
+./run.sh
+```
+The script creates the virtual environment, installs dependencies, opens the browser when
+`xdg-open` or `open` is available, and starts the server at <http://127.0.0.1:8765>.
+If the browser opens before the server is ready, refresh the page.
+
+### Manual (Windows)
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
