@@ -72,13 +72,22 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 
 ## Como rodar
 
-Requisitos: **Python 3.10+** (testado no 3.13) e Windows. Em Linux/macOS os comandos abaixo funcionam com o caminho do venv ajustado.
+Requisitos: **Python 3.10+** (testado no 3.13) em Windows, Linux ou macOS.
 
 ### Jeito rápido (Windows)
 Dê dois cliques em `run.bat`. Ele cria o ambiente virtual, instala as dependências, inicia o servidor e abre
 <http://127.0.0.1:8765> no navegador.
 
-### Manual
+### Jeito rápido (Linux/macOS)
+Na pasta do projeto, execute:
+```bash
+./run.sh
+```
+O script cria o ambiente virtual, instala as dependências, abre o navegador quando
+`xdg-open` ou `open` está disponível e inicia o servidor em <http://127.0.0.1:8765>.
+Se o navegador abrir antes de o servidor estar pronto, atualize a página.
+
+### Manual (Windows)
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
