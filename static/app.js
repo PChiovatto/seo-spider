@@ -3,6 +3,8 @@ const $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const kb = (n) => (n == null ? '' : (n / 1024).toFixed(1));
 const yes = (v) => (v ? t('Sim') : '');
+const T_LAST_CHECK = () => t('Última análise:');
+const ST_LEVEL_NAMES = ['0', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'];
 const store = {
   get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
   set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
@@ -1016,7 +1018,7 @@ function structurePanel() {
     </div><table class="sttable"><thead><tr><th>Caminho</th><th class="num">URLs ▾</th>${cols.map(([l]) => `<th class="num">${l}</th>`).join('')}</tr></thead><tbody>` +
     (nodes.length ? nodes.map((n) => `<tr class="${S.custom?.label === 'Caminho: ' + n.prefix ? 'on' : ''}" data-stpath="${esc(n.prefix)}">${pathCell(n, stOpen(n), 'data-stnode')}<td class="num">${n.n}</td>${cols.map(([, f]) => `<td class="num">${f(n)}</td>`).join('')}</tr>`).join('')
       : `<tr><td colspan="${cols.length + 2}" class="empty">Rode um crawl para ver a estrutura.</td></tr>`) +
-    `</tbody></table><div class="stfoot">Nível máx.: ${Math.max(0, treeMaxDepth(ST_TREE))}</div>`;
+    `</tbody></table><div class="stfoot">${t('Nível de heading')} ${ST_LEVEL_NAMES[Math.max(0, treeMaxDepth(ST_TREE))] || Math.max(0, treeMaxDepth(ST_TREE))}</div>`;
   const chart = `<h3 class="withview"><span class="ttl">Profundidade de rastreamento</span><span class="stview">Ver: <select id="chartView"><option value="chart" ${S.chartView === 'chart' ? 'selected' : ''}>Gráfico</option><option value="table" ${S.chartView === 'table' ? 'selected' : ''}>Tabela</option></select></span></h3>` +
     (S.chartView === 'table' ? depthTable() : depthChart());
   return [h, chart];
@@ -1244,7 +1246,7 @@ const RIGHT_PANELS = {
       `<tr class="sec"><td class="name">Palavras desconhecidas mais frequentes</td><td></td><td></td></tr>` +
       (top.length ? top.map((t) => `<tr class="sub ${S.custom?.label === 'Palavra: ' + t.word ? 'on' : ''}" data-word="${esc(t.word)}"><td class="name">${esc(t.word)}</td><td class="num">${t.count}</td><td class="num">${pct(t.count, hp.length)}</td></tr>`).join('')
         : `<tr><td colspan="3" class="rnote">${DATA.finalized ? 'Nenhuma palavra desconhecida.' : 'Calculado na Análise de crawl (ao fim do rastreamento).'}</td></tr>`) +
-      `</tbody></table><div class="rbar">${g.running ? `<span class="muted">Gramática: ${g.done}/${g.total}</span><button class="tbtn" data-ract="grammar-stop">■ Parar</button>`
+      `</tbody></table><div class="rbar">${g.running ? `<span class="muted">${tf('Gramática ({{0}})', `${g.done}/${g.total}`)}</span><button class="tbtn" data-ract="grammar-stop">■ Parar</button>`
         : '<button class="tbtn" data-ract="grammar">▶ Verificar gramática (LanguageTool)</button>'}
         <button class="tbtn" data-ract="spell-config">Idioma / ignorar palavras…</button></div>
         <div class="rnote">A gramática envia o texto das páginas para a API pública do LanguageTool (20 páginas/min).</div>`;
@@ -1261,7 +1263,7 @@ const RIGHT_PANELS = {
       `<tr class="sub ${S.custom?.label === 'Semanticamente similares' ? 'on' : ''} ${sim.length ? 'bad' : ''}" data-sem="similar"><td class="name">Semanticamente similares</td><td class="num n">${sim.length}</td><td class="num">${pct(sim.length, hp.length)}</td></tr>` +
       `<tr class="sub ${S.custom?.label === 'Baixa relevância' ? 'on' : ''} ${low.length ? 'bad' : ''}" data-sem="low"><td class="name">Baixa relevância</td><td class="num n">${low.length}</td><td class="num">${pct(low.length, hp.length)}</td></tr>`;
     if (SEM.results) {
-      h += `<tr class="sec"><td class="name">Resultados para “${esc(SEM.q)}”</td><td class="num">Score</td><td></td></tr>` +
+      h += `<tr class="sec"><td class="name">${tf('Resultados para “{{0}}”', SEM.q)}</td><td class="num">Score</td><td></td></tr>` +
         (SEM.results.length ? SEM.results.map((r) => `<tr class="sub" data-goto-url="${esc(r.url)}"><td class="name" title="${esc(r.url)}">${esc(r.url)}</td><td class="num">${r.score.toFixed(3)}</td><td></td></tr>`).join('')
           : '<tr><td colspan="3" class="rnote">Nenhum resultado.</td></tr>');
     }
@@ -1578,7 +1580,7 @@ const DETAIL = {
       let raw = s.raw;
       try { raw = JSON.stringify(JSON.parse(s.raw), null, 2); } catch {}
       return `<div class="sd-item"><b>${s.format}</b> — ${esc(s.types.join(', ') || '(sem @type)')}
-        ${s.error ? `<div class="s4">Erro de sintaxe: ${esc(s.error)}</div>` : ''}
+        ${s.error ? `<div class="s4">${tf('Erro de sintaxe: {{0}}', s.error)}</div>` : ''}
         ${(s.entities || []).map((en) => `<div class="sdent"><b translate="no">${esc(en.type)}</b>
           ${en.errors.length ? `<ul class="s4">${en.errors.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
           ${en.warnings.length ? `<ul class="s3">${en.warnings.map((x) => `<li>${esc(x)}</li>`).join('')}</ul>` : ''}
@@ -1628,7 +1630,7 @@ const DETAIL = {
     const r = d.record;
     const card = (l, v, cls = '') => `<div class="card">${l}<b class="${cls}">${v ?? '—'}</b></div>`;
     return `<div class="psi"><div><button class="tbtn" data-psi="mobile">▶ Analisar (mobile)</button> <button class="tbtn" data-psi="desktop">▶ Analisar (desktop)</button>
-      ${r.psi_strategy ? `<span class="muted">Última análise: ${r.psi_strategy}</span>` : ''}</div>
+      ${r.psi_strategy ? `<span class="muted">${T_LAST_CHECK()} ${r.psi_strategy}</span>` : ''}</div>
       ${r.psi_error ? `<div class="s4">${esc(r.psi_error)}</div>` : ''}
       <div class="scores">${card('Performance', r.psi_score, scoreCls(r.psi_score))}${card('LCP (s)', r.psi_lcp)}${card('FCP (s)', r.psi_fcp)}${card('CLS', r.psi_cls)}${card('TBT (ms)', r.psi_tbt)}${card('Speed Index (s)', r.psi_si)}</div>
       <div class="muted">Dados reais de usuários (CrUX, quando houver):</div>

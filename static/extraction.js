@@ -116,12 +116,12 @@
     document.body.insertAdjacentHTML('beforeend', `
       <div class="modal" id="exvModal" hidden>
         <div class="window huge exvwin">
-          <div class="wtitle"><span>Extração Visual</span><button type="button" class="wclose" id="exvX" title="Fechar">×</button></div>
+          <div class="wtitle"><span>${tt('Extração Visual')}</span><button type="button" class="wclose" id="exvX" title="${tt('Fechar')}">×</button></div>
           <div class="toolbar exv-bar">
-            <label class="stack exv-urlsel"><span>Página</span><select id="exvPage"></select></label>
-            <button type="button" class="tbtn" id="exvLoad">Carregar</button>
-            <label class="stack"><span>Atributo (vazio = texto)</span><input type="text" id="exvAttr" list="exvAttrNames" placeholder="ex.: href" value="${DEFAULT_ATTR}"></label>
-            <div class="exv-type" role="group" aria-label="Tipo de seletor">
+            <label class="stack exv-urlsel"><span>${tt('Página')}</span><select id="exvPage"></select></label>
+            <button type="button" class="tbtn" id="exvLoad">${tt('Carregar')}</button>
+            <label class="stack"><span>${tt('Atributo (vazio = texto)')}</span><input type="text" id="exvAttr" list="exvAttrNames" placeholder="${tt('ex.: href')}" value="${DEFAULT_ATTR}"></label>
+            <div class="exv-type" role="group" aria-label="${tt('Tipo de seletor')}">
               <button type="button" class="tbtn on" data-exv-type="css">CSS</button>
               <button type="button" class="tbtn" data-exv-type="xpath">XPath</button>
               <button type="button" class="tbtn" data-exv-type="regex">Regex</button>
@@ -133,24 +133,24 @@
             <div class="exv-stage" id="exvStage"><div class="empty">Escolha uma URL do crawl e clique em Carregar.</div></div>
             <aside class="exv-side">
               <div class="exv-pick">
-                <h4>Seletor</h4>
+                <h4>${tt('Seletor')}</h4>
                 <label class="muted">Expressão</label><code id="exvExpr">—</code>
-                <label class="muted">Resultado nesta página</label><div id="exvResult" class="exv-result">—</div>
-                <label class="muted">Correspondências na página</label>
-                <div id="exvMatches" class="exv-matches muted">Selecione um elemento.</div>
+                <label class="muted">${tt('Resultado nesta página')}</label><div id="exvResult" class="exv-result">—</div>
+                <label class="muted">${tt('Correspondências na página')}</label>
+                <div id="exvMatches" class="exv-matches muted">${tt('Selecione um elemento.')}</div>
               </div>
               <div class="exv-list">
-                <div class="exv-listhead"><h4>Extrações</h4><span class="muted" id="exvN">0</span></div>
-                <div id="exvItems" class="exv-items"><div class="empty">Nada extraído ainda.</div></div>
+                <div class="exv-listhead"><h4>${tt('Extrações')}</h4><span class="muted" id="exvN">0</span></div>
+                <div id="exvItems" class="exv-items"><div class="empty">${tt('Nada extraído ainda.')}</div></div>
               </div>
             </aside>
           </div>
           <div class="wfoot">
             <button type="button" class="tbtn" id="exvClear">Limpar lista</button>
             <span class="sp"></span>
-            <button type="button" class="tbtn" id="exvLayout">Salvar como Extração</button>
-            <button type="button" class="tbtn" id="exvApply" disabled>Aplicar na Extração personalizada</button>
-            <button type="button" class="tbtn" id="exvClose">Fechar</button>
+            <button type="button" class="tbtn" id="exvLayout">${tt('Salvar como Extração')}</button>
+            <button type="button" class="tbtn" id="exvApply" disabled>${tt('Aplicar na Extração personalizada')}</button>
+            <button type="button" class="tbtn" id="exvClose">${tt('Fechar')}</button>
           </div>
           <datalist id="exvAttrNames">${['href', 'src', 'alt', 'title', 'content', 'value', 'data-src', 'datetime'].map((a) => `<option value="${a}">`).join('')}</datalist>
         </div>
@@ -183,7 +183,7 @@
     const list = pageOptions();
     const prev = preferred || els.page.value;
     if (!list.length) {
-      els.page.innerHTML = '<option value="">(nenhuma página HTML no crawl)</option>';
+      els.page.innerHTML = `<option value="">${tt('(nenhuma página HTML no crawl)')}</option>`;
       return;
     }
     els.page.innerHTML = list.map((p) => `<option value="${esc(p.url)}">${esc(p.url)}${p.title ? ' — ' + esc(clip(p.title, 60)) : ''}</option>`).join('');
@@ -220,7 +220,7 @@
   function load() {
     const url = els.page.value;
     if (!url) {
-      els.stage.innerHTML = '<div class="empty">Nenhuma página HTML disponível neste crawl.</div>';
+      els.stage.innerHTML = `<div class="empty">${tt('Nenhuma página HTML disponível neste crawl.')}</div>`;
       return;
     }
     S.url = url;
@@ -230,7 +230,7 @@
     els.stage.innerHTML = `<div class="empty">${tt('Carregando…')}</div>`;
     els.expr.textContent = '—';
     els.result.textContent = '—';
-    els.matches.textContent = 'Selecione um elemento.';
+    els.matches.textContent = tt('Selecione um elemento.');
     const frame = document.createElement('iframe');
     frame.className = 'exv-frame';
     frame.setAttribute('sandbox', 'allow-same-origin');   // scripts desativados, DOM legível
@@ -348,7 +348,7 @@
     els.apply.disabled = !n;
     els.layout.disabled = !n;
     if (!n) {
-      els.items.innerHTML = '<div class="empty">Nada extraído ainda.</div>';
+      els.items.innerHTML = `<div class="empty">${tt('Nada extraído ainda.')}</div>`;
       return;
     }
     els.items.innerHTML = '<table><thead><tr><th>Nome</th><th>Tipo</th><th>Expressão</th><th></th></tr></thead><tbody>' +
