@@ -125,6 +125,14 @@ Detalles en [tests/README.md](tests/README.md) (en portugués).
 | `cli.py` | Rastreo por línea de comandos |
 | `static/` | Interfaz web (HTML, CSS, JS) y traducciones |
 
+## Contribuir
+¡Las contribuciones son muy bienvenidas! Correcciones, nuevas verificaciones SEO, traducciones y documentación.
+Lee la [guía de contribución](CONTRIBUTING.md#español) y busca issues etiquetados como
+[`good first issue`](https://github.com/PChiovatto/seo-spider/issues?q=is%3Aopen+label%3A%22good+first+issue%22) para empezar.
+
+## Licencia
+[MIT](LICENSE) © 2026 Paulo Chiovatto
+
 ## Aviso
 Proyecto independiente, sin vínculo con Screaming Frog Ltd. Rastrea solo sitios que tengas permiso
 para analizar y respeta sus límites de solicitudes.

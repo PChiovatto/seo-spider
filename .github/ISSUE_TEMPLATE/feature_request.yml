@@ -1,0 +1,21 @@
+name: 💡 Sugestão / Feature request
+description: Ideia de nova funcionalidade ou verificação de SEO / New feature or SEO check
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema isso resolve? / What problem does this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Como deveria funcionar? / How should it work?
+    validations:
+      required: true
+  - type: textarea
+    id: reference
+    attributes:
+      label: Referências / References
+      description: Documentação do Google, exemplos, ferramentas parecidas. / Google docs, examples, similar tools.

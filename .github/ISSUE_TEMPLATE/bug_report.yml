@@ -1,0 +1,35 @@
+name: 🐛 Bug
+description: Algo não funciona como deveria / Something isn't working
+labels: ["bug"]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: O que aconteceu? / What happened?
+      description: Descreva o problema. / Describe the problem.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir / Steps to reproduce
+      placeholder: |
+        1. Rastrear https://example.com com renderização JS ligada
+        2. Abrir a aba ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: O que você esperava? / Expected behavior
+  - type: input
+    id: env
+    attributes:
+      label: Ambiente / Environment
+      placeholder: Windows 11, Python 3.13, Chrome 130
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs ou capturas / Logs or screenshots
+      description: Não inclua chaves de API! / Do not include API keys!
