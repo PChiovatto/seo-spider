@@ -1,5 +1,7 @@
 # SEO Spider
 
+**Português** · [English](README.en.md) · [Español](README.es.md)
+
 Rastreador (crawler) de SEO técnico que roda **100% local** no seu computador, inspirado no
 Screaming Frog SEO Spider. Você informa uma URL, ele percorre o site como um robô de busca e
 mostra numa interface web tudo o que importa para SEO: status HTTP, títulos, meta descriptions,
