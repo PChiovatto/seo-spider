@@ -6,6 +6,7 @@
 ![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 [Português](README.md) · [English](README.en.md) · **Español**
+[Changelog](CHANGELOG.es.md) · [Português](CHANGELOG.md) · [English](CHANGELOG.en.md)
 
 Rastreador (crawler) de SEO técnico que se ejecuta **100% en local** en tu computadora, inspirado en
 Screaming Frog SEO Spider. Ingresas una URL, recorre el sitio como un robot de búsqueda y muestra en una

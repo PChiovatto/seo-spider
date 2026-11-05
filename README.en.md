@@ -6,6 +6,7 @@
 ![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 [Português](README.md) · **English** · [Español](README.es.md)
+[Changelog](CHANGELOG.en.md) · [Português](CHANGELOG.md) · [Español](CHANGELOG.es.md)
 
 A technical SEO crawler that runs **100% locally** on your computer, inspired by the Screaming Frog
 SEO Spider. Enter a URL and it walks the site like a search engine bot, then shows everything that
