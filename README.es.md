@@ -11,7 +11,7 @@ seguridad, accesibilidad y mucho más.
 Los datos del rastreo se quedan en tu equipo. No se envía nada a servidores de terceros, salvo que
 conectes una integración (Google Search Console, GA4, PageSpeed, IA, etc.).
 
-![Vista general](docs/screenshots/01-visao-geral.png)
+![Vista general](docs/screenshots/es/01-visao-geral.png)
 
 ## Qué hace
 
@@ -54,21 +54,21 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 ## Capturas de pantalla
 
 **Problemas encontrados en el sitio**
-![Problemas](docs/screenshots/03-problemas.png)
+![Problemas](docs/screenshots/es/03-problemas.png)
 
-**Pestaña Page Titles**
-![Page Titles](docs/screenshots/04-page-titles.png)
+**Pestaña Títulos de página**
+![Títulos de página](docs/screenshots/es/04-page-titles.png)
 
 **Diagrama de enlaces internos**
-![Diagrama de enlaces](docs/screenshots/05-diagrama-links.png)
+![Diagrama de enlaces](docs/screenshots/es/05-diagrama-links.png)
 
 **Árbol de directorios**
-![Árbol de directorios](docs/screenshots/06-arvore-diretorios.png)
+![Árbol de directorios](docs/screenshots/es/06-arvore-diretorios.png)
 
 **Gráficos del rastreo**
-![Gráficos](docs/screenshots/07-graficos.png)
+![Gráficos](docs/screenshots/es/07-graficos.png)
 
-> Las capturas muestran un rastreo de demostración de `books.toscrape.com`, un sitio público creado para practicar scraping. El idioma de la interfaz se puede cambiar a español en el menú **Idioma**.
+> Las capturas muestran un rastreo de demostración de `books.toscrape.com`, un sitio público creado para practicar scraping. El idioma de la interfaz se puede cambiar en el menú **Idioma** (Português, English, Español).
 
 ## Cómo ejecutarlo
 

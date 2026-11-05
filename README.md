@@ -11,7 +11,7 @@ cabeçalhos de segurança, acessibilidade e muito mais.
 Os dados do crawl ficam na sua máquina. Nada é enviado para servidores de terceiros, a não ser
 que você conecte uma integração (Google Search Console, GA4, PageSpeed, IA etc.).
 
-![Visão geral](docs/screenshots/01-visao-geral.png)
+![Visão geral](docs/screenshots/pt/01-visao-geral.png)
 
 ## O que ele faz
 
@@ -54,21 +54,21 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 ## Capturas de tela
 
 **Problemas encontrados no site**
-![Problemas](docs/screenshots/03-problemas.png)
+![Problemas](docs/screenshots/pt/03-problemas.png)
 
 **Aba Page Titles**
-![Page Titles](docs/screenshots/04-page-titles.png)
+![Page Titles](docs/screenshots/pt/04-page-titles.png)
 
 **Diagrama de links internos**
-![Diagrama de links](docs/screenshots/05-diagrama-links.png)
+![Diagrama de links](docs/screenshots/pt/05-diagrama-links.png)
 
 **Árvore de diretórios**
-![Árvore de diretórios](docs/screenshots/06-arvore-diretorios.png)
+![Árvore de diretórios](docs/screenshots/pt/06-arvore-diretorios.png)
 
 **Gráficos do crawl**
-![Gráficos](docs/screenshots/07-graficos.png)
+![Gráficos](docs/screenshots/pt/07-graficos.png)
 
-> As capturas mostram um crawl de demonstração de `books.toscrape.com`, site público feito para testes de scraping.
+> As capturas mostram um crawl de demonstração de `books.toscrape.com`, site público feito para testes de scraping. O idioma da interface pode ser trocado no menu **Idioma** (Português, English, Español).
 
 ## Como rodar
 

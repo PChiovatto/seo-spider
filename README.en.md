@@ -10,7 +10,7 @@ broken links, redirects, duplicate content, structured data, security headers, a
 Crawl data stays on your machine. Nothing is sent to third-party servers unless you connect an
 integration (Google Search Console, GA4, PageSpeed, AI providers, etc.).
 
-![Overview](docs/screenshots/01-visao-geral.png)
+![Overview](docs/screenshots/en/01-visao-geral.png)
 
 ## What it does
 
@@ -53,21 +53,21 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 ## Screenshots
 
 **Issues found on the site**
-![Issues](docs/screenshots/03-problemas.png)
+![Issues](docs/screenshots/en/03-problemas.png)
 
 **Page Titles tab**
-![Page Titles](docs/screenshots/04-page-titles.png)
+![Page Titles](docs/screenshots/en/04-page-titles.png)
 
 **Internal link diagram**
-![Link diagram](docs/screenshots/05-diagrama-links.png)
+![Link diagram](docs/screenshots/en/05-diagrama-links.png)
 
 **Directory tree**
-![Directory tree](docs/screenshots/06-arvore-diretorios.png)
+![Directory tree](docs/screenshots/en/06-arvore-diretorios.png)
 
 **Crawl charts**
-![Charts](docs/screenshots/07-graficos.png)
+![Charts](docs/screenshots/en/07-graficos.png)
 
-> Screenshots show a demo crawl of `books.toscrape.com`, a public site made for scraping practice. The interface language can be switched to English in the **Language** menu.
+> Screenshots show a demo crawl of `books.toscrape.com`, a public site made for scraping practice. The interface language can be switched in the **Language** menu (Português, English, Español).
 
 ## Running it
 
