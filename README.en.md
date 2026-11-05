@@ -1,6 +1,9 @@
 # SEO Spider
 
 ![tests](https://github.com/PChiovatto/seo-spider/actions/workflows/tests.yml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 [Português](README.md) · **English** · [Español](README.es.md)
 
@@ -61,13 +64,13 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 ![Page Titles](docs/screenshots/en/04-page-titles.png)
 
 **Internal link diagram**
-![Link diagram](docs/screenshots/en/05-diagrama-links.png)
+![Link diagram](docs/screenshots/en/05-diagrama-links.webp)
 
 **Directory tree**
-![Directory tree](docs/screenshots/en/06-arvore-diretorios.png)
+![Directory tree](docs/screenshots/en/06-arvore-diretorios.webp)
 
 **Crawl charts**
-![Charts](docs/screenshots/en/07-graficos.png)
+![Charts](docs/screenshots/en/07-graficos.webp)
 
 > Screenshots show a demo crawl of `books.toscrape.com`, a public site made for scraping practice. The interface language can be switched in the **Language** menu (Português, English, Español).
 

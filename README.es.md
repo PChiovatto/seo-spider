@@ -1,6 +1,9 @@
 # SEO Spider
 
 ![tests](https://github.com/PChiovatto/seo-spider/actions/workflows/tests.yml/badge.svg)
+![license](https://img.shields.io/badge/license-MIT-blue.svg)
+![python](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![PRs welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 
 [Português](README.md) · [English](README.en.md) · **Español**
 
@@ -62,13 +65,13 @@ Google Search Console, Google Analytics 4, PageSpeed Insights, Majestic, Ahrefs,
 ![Títulos de página](docs/screenshots/es/04-page-titles.png)
 
 **Diagrama de enlaces internos**
-![Diagrama de enlaces](docs/screenshots/es/05-diagrama-links.png)
+![Diagrama de enlaces](docs/screenshots/es/05-diagrama-links.webp)
 
 **Árbol de directorios**
-![Árbol de directorios](docs/screenshots/es/06-arvore-diretorios.png)
+![Árbol de directorios](docs/screenshots/es/06-arvore-diretorios.webp)
 
 **Gráficos del rastreo**
-![Gráficos](docs/screenshots/es/07-graficos.png)
+![Gráficos](docs/screenshots/es/07-graficos.webp)
 
 > Las capturas muestran un rastreo de demostración de `books.toscrape.com`, un sitio público creado para practicar scraping. El idioma de la interfaz se puede cambiar en el menú **Idioma** (Português, English, Español).
 
