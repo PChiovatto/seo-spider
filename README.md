@@ -1,5 +1,7 @@
 # SEO Spider
 
+![tests](https://github.com/PChiovatto/seo-spider/actions/workflows/tests.yml/badge.svg)
+
 **Português** · [English](README.en.md) · [Español](README.es.md)
 
 Rastreador (crawler) de SEO técnico que roda **100% local** no seu computador, inspirado no

@@ -1,5 +1,7 @@
 # SEO Spider
 
+![tests](https://github.com/PChiovatto/seo-spider/actions/workflows/tests.yml/badge.svg)
+
 [Português](README.md) · **English** · [Español](README.es.md)
 
 A technical SEO crawler that runs **100% locally** on your computer, inspired by the Screaming Frog
