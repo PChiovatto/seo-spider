@@ -1,0 +1,2 @@
+# Local tool - never serve from the web host
+Require all denied

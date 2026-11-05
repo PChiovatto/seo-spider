@@ -1,0 +1,24 @@
+# Ambiente Python
+.venv/
+__pycache__/
+*.pyc
+
+# Dados locais — contém chaves de API (data/integrations.json), crawls salvos,
+# agendamentos e configurações pessoais. NUNCA versionar.
+data/
+
+# Segredos em qualquer lugar do projeto
+.env
+.env.*
+*.key
+*.pem
+*credentials*.json
+*service_account*.json
+client_secret*.json
+integrations.json
+mcp.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini

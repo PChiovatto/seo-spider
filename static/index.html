@@ -1,0 +1,615 @@
+﻿<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SEO Spider</title>
+  <link rel="stylesheet" href="style.css?v=39">
+</head>
+<body>
+<nav class="menubar" id="menubar">
+  <div class="menu"><button>Arquivo</button><div class="dropdown">
+    <a data-act="new">Novo <span class="kbd">Ctrl+N</span></a>
+    <a data-act="crawls">Crawls… <span class="kbd">Ctrl+O</span></a>
+    <div class="submenu"><a class="has-sub">Abrir recente</a><div class="dropdown sub" id="recentOpen"></div></div>
+    <hr>
+    <a data-act="closecrawl">Fechar <span class="kbd">Ctrl+W</span></a>
+    <hr>
+    <a data-act="renamecrawl">Renomear…</a>
+    <a data-act="deletecrawl">Excluir</a>
+    <hr>
+    <a data-act="importcrawl">Importar…</a>
+    <div class="submenu"><a class="has-sub">Importar recente</a><div class="dropdown sub" id="recentImport"></div></div>
+    <a data-act="exportcrawl">Exportar…</a>
+    <a data-act="savecrawl">Salvar</a>
+    <hr>
+    <div class="submenu"><a class="has-sub">Configurações…</a><div class="dropdown sub">
+      <a data-act="settings">Configurações <span class="kbd">Ctrl+,</span></a>
+      <hr>
+      <a data-act="settings" data-section="licence">Licença</a>
+      <a data-act="settings" data-section="ui">Interface</a>
+      <a data-act="settings" data-section="language">Idioma</a>
+      <a data-act="settings" data-section="proxy">Proxy</a>
+      <a data-act="settings" data-section="storage">Modo de armazenamento</a>
+      <a data-act="settings" data-section="retention">Retenção de crawls</a>
+      <a data-act="settings" data-section="memory">Alocação de memória</a>
+      <a data-act="settings" data-section="browser">Navegador embutido</a>
+      <a data-act="settings" data-section="certs">Certificados confiáveis</a>
+      <a data-act="settings" data-section="notify">Notificações</a>
+    </div></div>
+    <hr>
+    <div class="submenu"><a class="has-sub">Crawl recente</a><div class="dropdown sub" id="recentCrawl"></div></div>
+    <hr>
+    <a data-act="schedule">Agendamento</a>
+    <hr>
+    <a data-act="exitapp">Sair <span class="kbd">Alt+F4</span></a>
+    <input type="file" id="fileImport" accept=".gz,.json.gz" hidden>
+  </div></div>
+  <div class="menu"><button>Ver</button><div class="dropdown">
+    <a data-act="toggle-right">Mostrar/ocultar painel direito</a>
+    <a data-act="toggle-bottom">Mostrar/ocultar painel inferior</a>
+    <a data-act="reset-layout">Restaurar layout padrão</a>
+    <hr>
+    <a data-act="reset-columns">Restaurar colunas de todas as tabelas</a>
+    <a data-act="reset-tabs">Restaurar abas</a>
+    <a data-act="focus-mode" class="toggle">Modo foco</a>
+  </div></div>
+  <div class="menu"><button>Modo</button><div class="dropdown">
+    <a data-act="mode-spider" class="radio" id="modeSpider">Spider</a>
+    <a data-act="mode-list" class="radio" id="modeList">Lista</a>
+    <hr>
+    <a data-act="compare">Comparação de crawls…</a>
+  </div></div>
+  <div class="menu"><button class="hl">Configuração</button><div class="dropdown">
+    <a data-act="config" data-section="spider-crawl">Configuração do crawl <span class="kbd">Ctrl+;</span></a>
+    <hr>
+    <div class="submenu"><a class="has-sub">Spider</a><div class="dropdown sub">
+      <a data-act="config" data-section="spider-crawl">Rastreamento</a>
+      <a data-act="config" data-section="spider-extraction">Extração</a>
+      <a data-act="config" data-section="spider-limits">Limites</a>
+      <a data-act="config" data-section="spider-rendering">Renderização</a>
+      <a data-act="config" data-section="spider-advanced">Avançado</a>
+      <a data-act="config" data-section="spider-preferences">Preferências</a>
+    </div></div>
+    <div class="submenu"><a class="has-sub">Conteúdo</a><div class="dropdown sub">
+      <a data-act="config" data-section="content-area">Área de conteúdo</a>
+      <a data-act="config" data-section="content-duplicates">Duplicados</a>
+      <a data-act="config" data-section="content-spelling">Ortografia e gramática</a>
+      <a data-act="config" data-section="content-embeddings">Embeddings</a>
+    </div></div>
+    <a data-act="config" data-section="robots">robots.txt</a>
+    <a data-act="config" data-section="url-rewriting">Reescrita de URL</a>
+    <a data-act="config" data-section="cdns">CDNs</a>
+    <a data-act="config" data-section="include">Incluir URLs</a>
+    <a data-act="config" data-section="exclude">Excluir URLs</a>
+    <a data-act="config" data-section="speed">Velocidade</a>
+    <a data-act="config" data-section="user-agent">User-Agent</a>
+    <a data-act="config" data-section="http-header">Cabeçalho HTTP</a>
+    <div class="submenu"><a class="has-sub">Personalizado</a><div class="dropdown sub">
+      <a data-act="config" data-section="custom-search">Pesquisa personalizada</a>
+      <a data-act="config" data-section="custom-extraction">Extração personalizada</a>
+      <a data-act="extraction">Extração Visual <span class="kbd">Ctrl+Shift+E</span></a>
+      <a data-act="config" data-section="custom-linkpos">Posições de links personalizadas</a>
+      <a data-act="config" data-section="custom-js">JavaScript personalizado</a>
+    </div></div>
+    <div class="submenu"><a class="has-sub">Acesso à API</a><div class="dropdown sub">
+      <a data-act="apicfg" data-api="ga4">Google Analytics 4</a>
+      <a data-act="apicfg" data-api="gsc">Google Search Console</a>
+      <a data-act="apicfg" data-api="psi">PageSpeed Insights</a>
+      <a data-act="apicfg" data-api="majestic">Majestic</a>
+      <a data-act="apicfg" data-api="ahrefs">Ahrefs</a>
+      <a data-act="apicfg" data-api="moz">Moz</a>
+      <hr>
+      <a data-act="apicfg" data-api="openai">OpenAI</a>
+      <a data-act="apicfg" data-api="gemini">Gemini</a>
+      <a data-act="apicfg" data-api="ollama">Ollama</a>
+      <a data-act="apicfg" data-api="anthropic">Anthropic</a>
+    </div></div>
+    <div class="submenu"><a class="has-sub">Autenticação</a><div class="dropdown sub">
+      <a data-act="config" data-section="auth-standards">Baseada em padrões</a>
+      <a data-act="config" data-section="auth-forms">Baseada em formulário</a>
+      <a data-act="config" data-section="auth-profiles">Perfis</a>
+    </div></div>
+    <a data-act="config" data-section="segments">Segmentos</a>
+    <a data-act="config" data-section="crawl-analysis">Análise de crawl</a>
+    <hr>
+    <div class="submenu"><a class="has-sub">Perfis</a><div class="dropdown sub">
+      <a data-act="profload">Carregar…</a>
+      <div class="submenu"><a class="has-sub">Carregar recente</a><div class="dropdown sub" id="recentProfiles"></div></div>
+      <a data-act="profsaveas">Salvar como…</a>
+      <hr>
+      <a data-act="profdefault">Salvar configuração atual como padrão</a>
+      <a data-act="profcleardefault">Limpar configuração padrão</a>
+    </div></div>
+  </div></div>
+  <div class="menu"><button>Exportação em massa</button><div class="dropdown">
+    <a data-act="xlsx">Exportar tudo (Excel)</a>
+    <a data-act="csv">Exportar aba atual (CSV)</a>
+    <hr>
+    <a data-act="bulk" data-kind="all-links">Todos os links (inlinks/outlinks)</a>
+    <a data-act="bulk" data-kind="broken">Links quebrados (4xx/5xx/sem resposta)</a>
+    <a data-act="bulk" data-kind="external">Links externos</a>
+    <a data-act="bulk" data-kind="uncrawlable">Páginas com outlinks internos não rastreáveis</a>
+    <a data-act="bulk" data-kind="images-missing-alt">Imagens sem texto alt</a>
+    <a data-act="bulk" data-kind="issues">Todos os problemas</a>
+    <a data-act="bulk" data-kind="skipped">URLs não rastreadas (com motivo)</a>
+    <hr>
+    <a data-act="bulk" data-kind="inlinks-3xx">Códigos de resposta: inlinks para 3xx</a>
+    <a data-act="bulk" data-kind="inlinks-4xx">Códigos de resposta: inlinks para 4xx</a>
+    <a data-act="bulk" data-kind="inlinks-5xx">Códigos de resposta: inlinks para 5xx</a>
+    <a data-act="bulk" data-kind="inlinks-noresp">Códigos de resposta: inlinks sem resposta / bloqueados</a>
+    <a data-act="bulk" data-kind="images-all">Todas as imagens (com alt e tamanho)</a>
+    <a data-act="bulk" data-kind="hreflang">Hreflang (todas as anotações)</a>
+    <a data-act="bulk" data-kind="structured-data">Dados estruturados (todos os itens)</a>
+    <a data-act="bulk" data-kind="cookies">Cookies</a>
+    <a data-act="bulk" data-kind="accessibility">Acessibilidade (todas as violações)</a>
+    <a data-act="bulk" data-kind="headers">Cabeçalhos HTTP (todos)</a>
+  </div></div>
+  <div class="menu"><button>Relatórios</button><div class="dropdown">
+    <a data-act="report" data-kind="overview">Resumo do crawl</a>
+    <a data-act="report" data-kind="redirect-chains">Cadeias de redirect</a>
+    <a data-act="report" data-kind="canonical-chains">Cadeias de canonical</a>
+    <a data-act="report" data-kind="insecure">Conteúdo inseguro</a>
+    <a data-act="report" data-kind="orphans">Páginas órfãs</a>
+    <a data-act="report" data-kind="serp">Resumo SERP</a>
+    <a data-act="report" data-kind="migration">Migração (URL original → destino final)</a>
+    <hr>
+    <a data-act="report" data-kind="redirects-all">Todos os redirects (HTTP, JavaScript e meta refresh)</a>
+    <a data-act="report" data-kind="redirect-canonical-chains">Cadeias de redirect e canonical</a>
+    <a data-act="report" data-kind="non-indexable-canonicals">Canonicals não indexáveis</a>
+    <a data-act="report" data-kind="pagination">Paginação (não-200 e sem link)</a>
+    <a data-act="report" data-kind="hreflang-issues">Hreflang (problemas por anotação)</a>
+    <a data-act="report" data-kind="structured-data-summary">Resumo de dados estruturados</a>
+    <a data-act="report" data-kind="crawl-paths">Caminhos de rastreamento</a>
+    <a data-act="segreport">Segmentos</a>
+    <hr>
+    <a data-act="report" data-kind="accessibility-summary">Resumo de acessibilidade</a>
+    <a data-act="report" data-kind="cookie-summary">Resumo de cookies</a>
+    <a data-act="report" data-kind="headers-summary">Resumo de cabeçalhos HTTP</a>
+    <a data-act="report" data-kind="psi-opportunities">Oportunidades do PageSpeed</a>
+  </div></div>
+  <div class="menu"><button>Sitemaps</button><div class="dropdown">
+    <a data-act="sitemap">Gerar XML Sitemap…</a>
+  </div></div>
+  <div class="menu"><button>Visualizações</button><div class="dropdown">
+    <a data-act="viz" data-viz="charts">Gráficos do crawl</a>
+    <a data-act="viz" data-viz="dir">Árvore de diretórios</a>
+    <a data-act="viz" data-viz="crawl">Árvore de rastreamento</a>
+    <a data-act="viz" data-viz="force">Diagrama de links (força)</a>
+    <a data-act="viz" data-viz="clusters">Clusters de conteúdo</a>
+  </div></div>
+  <div class="menu"><button>Análise de crawl</button><div class="dropdown">
+    <a data-act="analyze">Iniciar</a>
+    <a data-act="analyze-stop">Parar</a>
+    <a data-act="config" data-section="analysis">Configurar…</a>
+    <hr>
+    <a data-act="why">Por que uma URL não foi rastreada?…</a>
+  </div></div>
+  <div class="menu"><button>MCP</button><div class="dropdown">
+    <a data-act="mcp-start">Iniciar servidor MCP</a>
+    <a data-act="mcp-stop">Parar servidor MCP</a>
+    <a data-act="mcp-config">Configurar…</a>
+  </div></div>
+  <div class="menu"><button>Idioma</button><div class="dropdown" translate="no">
+    <a data-act="lang" data-lang="pt" class="radio">Português</a>
+    <a data-act="lang" data-lang="en" class="radio">English</a>
+    <a data-act="lang" data-lang="es" class="radio">Español</a>
+  </div></div>
+  <div class="menu"><button>Ajuda</button><div class="dropdown">
+    <a data-act="usage">Estatísticas de uso</a>
+    <a data-act="debug">Depuração…</a>
+    <hr>
+    <a data-act="about">Sobre</a>
+  </div></div>
+</nav>
+
+<header class="top">
+  <div class="brand"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><circle cx="12" cy="13" r="4.2" fill="#6cb33f"/><circle cx="12" cy="7.6" r="2.4" fill="#6cb33f"/><path d="M8 11 3 8M8 13H2.5M8 15l-5 3M16 11l5-3M16 13h5.5M16 15l5 3" stroke="#6cb33f" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg><span>SEO</span><b>Spider</b></div>
+  <form id="crawlForm" class="urlbar" autocomplete="off">
+    <input type="hidden" id="mode" name="mode" value="spider">
+    <div class="urlbox" id="urlBox">
+      <span class="globe">🌐</span>
+      <input id="url" name="start_url" type="text" placeholder="Digite a URL para rastrear">
+      <button type="button" class="ibtn" id="urlClear" title="Limpar">✕</button>
+      <button type="button" class="ibtn" id="urlHist" title="Histórico">▾</button>
+      <div id="histMenu" class="dropdown hist"></div>
+    </div>
+    <button type="button" class="urlbox listbtn" id="listBtn" hidden>⬆ Enviar lista de URLs <span id="listCount"></span></button>
+    <label class="scope"><svg class="ico" viewBox="0 0 20 16" aria-hidden="true"><path d="M5 4.2h9.5M4.2 6 11 11.6" stroke="#fff" stroke-width="1.6" fill="none"/><rect x="0.6" y="0.8" width="6.4" height="6.4" fill="#fff"/><rect x="13.6" y="1.4" width="5.2" height="5.2" fill="#fff"/><rect x="9.6" y="9.4" width="5.8" height="5.8" fill="#fff"/></svg>
+      <select id="scope" name="scope">
+        <option value="subdomain">Subdomínio</option>
+        <option value="subfolder">Subpasta</option>
+        <option value="all_subdomains">Todos os subdomínios</option>
+      </select>
+    </label>
+    <button id="startBtn" type="submit" class="btn-start">▶ Iniciar</button>
+    <button id="clearBtn" type="button" class="btn-clear">⌫ Limpar</button>
+  </form>
+  <div class="crawlbar" id="crawlbar"><div id="bar"></div><span id="barText">Crawl 0%</span></div>
+  <div class="tagline"><span>SEO</span> Spider</div>
+</header>
+
+<main class="workspace" id="ws">
+  <section class="left">
+    <div class="tabbar"><nav id="tabs" class="tabs"></nav><button class="tabmore" data-more="tabs" title="Todas as abas">▾</button></div>
+    <div class="toolbar">
+      <label class="filter"><svg class="i" viewBox="0 0 16 16"><path d="M1 1.5h14L9.6 8v6.5l-3.2-1.6V8z"/></svg><select id="filter"></select></label>
+      <span class="cmpbar" id="cmpBar" hidden><select id="chgSel" title="Mudança em relação ao crawl anterior (ao ver um problema)">
+        <option value="all">Comparação: todas</option><option value="added">Adicionadas</option><option value="new">Novas</option>
+        <option value="removed">Removidas</option><option value="missing">Ausentes</option></select>
+        <button type="button" class="tbtn" id="cmpExit" title="Sair da comparação">✕</button></span>
+      <span class="sep"></span>
+      <div class="viewtoggle">
+        <button data-view="list" class="active" title="Visualização em lista"><svg class="i" viewBox="0 0 16 16"><rect x="1" y="2" width="2.6" height="2.6"/><rect x="5" y="2" width="10" height="2.6"/><rect x="1" y="6.7" width="2.6" height="2.6"/><rect x="5" y="6.7" width="10" height="2.6"/><rect x="1" y="11.4" width="2.6" height="2.6"/><rect x="5" y="11.4" width="10" height="2.6"/></svg></button>
+        <button data-view="tree" title="Visualização em árvore"><svg class="i" viewBox="0 0 16 16"><rect x="6" y="0.8" width="4" height="3.8"/><rect x="0.8" y="11.4" width="4" height="3.8"/><rect x="6" y="11.4" width="4" height="3.8"/><rect x="11.2" y="11.4" width="4" height="3.8"/><path d="M8 4.6v6.8M2.8 11.4V8h10.4v3.4" stroke="currentColor" stroke-width="1.4" fill="none"/></svg></button>
+      </div>
+      <span class="sep"></span>
+      <button class="tbtn" id="csvBtn"><svg class="i" viewBox="0 0 16 16"><path d="M8 1l4 4.2H9.4V10H6.6V5.2H4z"/><path d="M1 9.5V15h14V9.5h-2.2v3.3H3.2V9.5z"/></svg> Exportar</button>
+      <span id="tabActions"></span>
+      <div class="search"><svg class="i ring" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><input id="search" type="search" placeholder="Buscar..."><button type="button" class="sopts" data-sopts><svg class="i" viewBox="0 0 16 16"><path d="M1 3.2h14M1 8h14M1 12.8h14" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="9" y="1.4" width="2.6" height="3.6"/><rect x="3.4" y="6.2" width="2.6" height="3.6"/><rect x="10.4" y="11" width="2.6" height="3.6"/></svg></button></div>
+    </div>
+    <div class="grid" id="gridWrap" tabindex="0"><table id="grid"><thead></thead><tbody translate="no"></tbody></table></div>
+    <div class="tree-view" id="treeView" hidden></div>
+    <div class="gridstatus" id="gridStatus"></div>
+    <div class="hsplit" id="hsplit"></div>
+    <section class="bottom">
+      <div class="toolbar"><span id="dtools" class="dtools"></span><button class="tbtn" id="detailExport"><svg class="i" viewBox="0 0 16 16"><path d="M8 1l4 4.2H9.4V10H6.6V5.2H4z"/><path d="M1 9.5V15h14V9.5h-2.2v3.3H3.2V9.5z"/></svg> Exportar</button><div class="search"><svg class="i ring" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><input id="detailSearch" type="search" placeholder="Buscar..."><button type="button" class="sopts" data-sopts><svg class="i" viewBox="0 0 16 16"><path d="M1 3.2h14M1 8h14M1 12.8h14" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="9" y="1.4" width="2.6" height="3.6"/><rect x="3.4" y="6.2" width="2.6" height="3.6"/><rect x="10.4" y="11" width="2.6" height="3.6"/></svg></button></div></div>
+      <div id="detailBody" class="detail-body"></div>
+      <div class="gridstatus" id="detailStatus"></div>
+      <div class="tabbar bottomtabs"><nav id="dtabs" class="tabs"></nav><button class="tabmore" data-more="dtabs" title="Todas as abas">▾</button></div>
+    </section>
+  </section>
+  <div class="vsplit" id="vsplit"></div>
+  <aside class="right">
+    <div class="tabbar"><nav id="rtabs" class="tabs"></nav><button class="tabmore" data-more="rtabs" title="Todas as abas">▾</button></div>
+    <div class="rtable" id="rtable"></div>
+    <div class="rchart" id="rchart"></div>
+  </aside>
+</main>
+
+<footer class="statusbar">
+  <span id="sbMode">Modo Spider: Ocioso</span>
+  <span id="sbRate">Média: 0 URL/s. Atual: 0 URL/s.</span>
+  <span class="sbbox">‹ <span id="sbDone">Concluído 0 de 0 (0%) 0 restantes</span> ›</span>
+</footer>
+
+<div id="moreMenu" class="dropdown floating"></div>
+<div id="searchMenu" class="dropdown floating cols"></div>
+<div id="ctxMenu" class="dropdown floating"></div>
+<div id="colMenu" class="dropdown floating cols"></div>
+<div id="lshowMenu" class="dropdown floating cols"></div>
+
+<div class="modal" id="cfgModal" hidden>
+  <div class="window cfgwin">
+    <div class="wtitle sfbar"><span class="appico">🕷</span><span>Configuração do crawl</span><span class="sp"></span>
+      <button type="button" class="wbtn" id="cfgMax" title="Maximizar">❐</button><button type="button" class="wbtn" id="cfgX" title="Cancelar">✕</button></div>
+    <div class="cfg2">
+      <aside class="cfgside"><input id="cfgSearch" type="search" placeholder="Buscar..."><nav class="cfgnav" id="cfgNav"></nav></aside>
+      <section class="cfgpane"><h2 class="cfgcrumb" id="cfgCrumb"></h2><div class="cfgpages">
+      <section class="cfgsec" id="cfg-spider-crawl"><div class="cols2"><div><fieldset class="box "><legend>Links de recursos</legend><div class="csrow"><span>Imagens</span><label class="check"><input type="checkbox" name="check_images" data-store="store_images" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_images" checked> Armazenar</label></div><div class="csrow"><span>Mídia</span><label class="check"><input type="checkbox" name="crawl_media" data-store="store_media"> Rastrear</label><label class="check"><input type="checkbox" name="store_media"> Armazenar</label></div><div class="csrow"><span>CSS</span><label class="check"><input type="checkbox" name="crawl_css" data-store="store_css" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_css" checked> Armazenar</label></div><div class="csrow"><span>JavaScript</span><label class="check"><input type="checkbox" name="crawl_js" data-store="store_js" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_js" checked> Armazenar</label></div><div class="csrow"><span>SWF</span><label class="check"><input type="checkbox" name="crawl_swf" data-store="store_swf" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_swf" checked> Armazenar</label></div></fieldset><fieldset class="box "><legend>Links da página</legend><div class="csrow"><span>Hiperlinks internos</span><label class="check"><input type="checkbox" name="crawl_internal" data-store="store_internal" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_internal" checked> Armazenar</label></div><div class="csrow"><span>Links externos</span><label class="check"><input type="checkbox" name="check_external" data-store="store_external" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_external" checked> Armazenar</label></div><div class="csrow"><span>Canonicals</span><label class="check"><input type="checkbox" name="crawl_canonicals" data-store="store_canonicals" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_canonicals" checked> Armazenar</label></div><div class="csrow"><span>Paginação (rel next/prev)</span><label class="check"><input type="checkbox" name="crawl_pagination" data-store="store_pagination"> Rastrear</label><label class="check"><input type="checkbox" name="store_pagination" checked> Armazenar</label></div><div class="csrow"><span>Hreflang</span><label class="check"><input type="checkbox" name="crawl_hreflang" data-store="store_hreflang"> Rastrear</label><label class="check"><input type="checkbox" name="store_hreflang" checked> Armazenar</label></div><div class="csrow"><span>AMP</span><label class="check"><input type="checkbox" name="crawl_amp" data-store="store_amp"> Rastrear</label><label class="check"><input type="checkbox" name="store_amp"> Armazenar</label></div><div class="csrow"><span>Meta refresh</span><label class="check"><input type="checkbox" name="crawl_meta_refresh" data-store="store_meta_refresh" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_meta_refresh" checked> Armazenar</label></div><div class="csrow"><span>iframes</span><label class="check"><input type="checkbox" name="crawl_iframes" data-store="store_iframes" checked> Rastrear</label><label class="check"><input type="checkbox" name="store_iframes" checked> Armazenar</label></div><div class="csrow"><span>Alternate mobile</span><label class="check"><input type="checkbox" name="crawl_mobile_alt" data-store="store_mobile_alt"> Rastrear</label><label class="check"><input type="checkbox" name="store_mobile_alt"> Armazenar</label></div><div class="csrow"><span>Links não rastreáveis</span><label class="check" title="Links não rastreáveis nunca são seguidos"><input type="checkbox" disabled> Rastrear</label><label class="check"><input type="checkbox" name="store_uncrawlable"> Armazenar</label></div></fieldset></div><div><fieldset class="box "><legend>Comportamento do crawl</legend><label class="check"><input type="checkbox" name="check_outside_folder" checked > Verificar links fora da pasta inicial</label><label class="check"><input type="checkbox" name="crawl_outside_folder" checked > Rastrear fora da pasta inicial</label><label class="check"><input type="checkbox" name="crawl_subdomains" > Rastrear todos os subdomínios</label><label class="check"><input type="checkbox" name="follow_internal_nofollow" > Seguir "nofollow" internos</label><label class="check"><input type="checkbox" name="follow_external_nofollow" > Seguir "nofollow" externos</label><label class="check"><input type="checkbox" name="crawl_invalid_links" > Rastrear links inválidos</label></fieldset><fieldset class="box "><legend>Sitemaps XML</legend><label class="check"><input type="checkbox" name="crawl_sitemaps" > Rastrear sitemaps XML vinculadas</label><p class="muted">Adicionalmente:</p><label class="check"><input type="checkbox" name="sitemap_auto" checked > Descobrir sitemaps XML automaticamente pelo robots.txt</label><label class="check"><input type="checkbox" name="sitemap_list_on" > Rastrear estas sitemaps:</label><textarea name="sitemap_list" data-lines rows="8" placeholder="https://www.exemplo.com/sitemap.xml"></textarea></fieldset></div></div></section><section class="cfgsec" id="cfg-spider-extraction"><div class="cols3"><fieldset class="box "><legend>Detalhes da página</legend><label class="check"><input type="checkbox" name="ex_title" checked > Title da página</label><label class="check"><input type="checkbox" name="ex_meta_desc" checked > Meta description</label><label class="check"><input type="checkbox" name="ex_meta_keywords" checked > Meta keywords</label><label class="check"><input type="checkbox" name="ex_h1" checked > H1</label><label class="check"><input type="checkbox" name="ex_h2" checked > H2</label><label class="check"><input type="checkbox" name="ex_indexability" checked > Indexabilidade</label><label class="check"><input type="checkbox" name="ex_word_count" checked > Contagem de palavras</label><label class="check"><input type="checkbox" name="ex_readability" checked > Legibilidade</label><label class="check"><input type="checkbox" name="ex_text_ratio" checked > Proporção texto/código</label><label class="check"><input type="checkbox" name="ex_hash" checked > Valor de hash</label><label class="check"><input type="checkbox" name="ex_page_size" checked > Tamanho da página</label><label class="check"><input type="checkbox" name="ex_forms" checked > Formulários</label><label class="check"><input type="checkbox" name="accessibility" > Acessibilidade (requer renderização JavaScript)</label></fieldset><fieldset class="box "><legend>Detalhes da URL</legend><label class="check"><input type="checkbox" name="ex_response_time" checked > Tempo de resposta</label><label class="check"><input type="checkbox" name="ex_last_modified" checked > Last-Modified</label><label class="check"><input type="checkbox" name="store_headers" checked > Cabeçalhos HTTP</label><label class="check"><input type="checkbox" name="store_cookies" checked > Cookies</label></fieldset><fieldset class="box "><legend>Diretivas</legend><label class="check"><input type="checkbox" name="ex_meta_robots" checked > Meta robots</label><label class="check"><input type="checkbox" name="ex_x_robots" checked > X-Robots-Tag</label></fieldset><fieldset class="box "><legend>Dados estruturados</legend><label class="check"><input type="checkbox" name="extract_jsonld" > JSON-LD</label><label class="check"><input type="checkbox" name="extract_microdata" > Microdata</label><label class="check"><input type="checkbox" name="extract_rdfa" > RDFa</label><label class="check"><input type="checkbox" name="sd_schema_validation" checked > Validação Schema.org</label><label class="check"><input type="checkbox" name="sd_google_validation" checked > Validação de recursos de pesquisa aprimorada do Google</label></fieldset><fieldset class="box "><legend>HTML</legend><label class="check"><input type="checkbox" name="store_html" checked > Armazenar HTML</label><label class="check"><input type="checkbox" name="store_rendered" checked > Armazenar HTML renderizado</label></fieldset><fieldset class="box "><legend>PDF</legend><label class="check"><input type="checkbox" name="extract_pdf_props" checked > Extrair propriedades do PDF</label></fieldset></div></section><section class="cfgsec" id="cfg-spider-limits"><p class="cfgdesc">Limite o tamanho e o escopo do crawl. Isso ajuda a focar nas áreas principais e reduz o tempo do crawl.</p><hr class="cfghr"><div class="limgrid"><div><div class="limrow"><label class="check"><input type="checkbox" name="limit_total" data-limit="max_urls" checked> Limitar total do crawl</label><input type="number" name="max_urls" value="500" min="1" max="100000"></div><div class="limrow"><label class="check"><input type="checkbox" name="limit_depth" data-limit="max_depth"> Limitar profundidade do crawl</label><input type="number" name="max_depth" value="10" min="0" max="100"></div><div class="limrow"><label class="check"><input type="checkbox" name="limit_per_depth" data-limit="max_per_depth"> Limitar URLs por profundidade</label><input type="number" name="max_per_depth" value="1000" min="1" max="100000"></div><div class="limrow"><label class="check"><input type="checkbox" name="limit_folder" data-limit="max_folder_depth"> Limitar profundidade máx. de pastas</label><input type="number" name="max_folder_depth" value="5" min="0" max="100"></div><div class="limrow"><label class="check"><input type="checkbox" name="limit_query" data-limit="max_query_strings"> Limitar número de parâmetros de query</label><input type="number" name="max_query_strings" value="5" min="0" max="100"></div></div><div><div class="limrow"><label class="check"><input type="checkbox" name="limit_per_subdomain" data-limit="max_per_subdomain"> Limitar total por subdomínio</label><input type="number" name="max_per_subdomain" value="1000" min="1" max="100000"></div><label class="numrow"><span>Máx. redirecionamentos seguidos</span><input type="number" name="max_redirects" value="10" min="0" max="20" step="1" ></label><label class="numrow"><span>Comprimento máx. da URL a rastrear</span><input type="number" name="max_url_length" value="10000" min="50" max="10000" step="1" ></label><label class="numrow"><span>Máx. links por URL a rastrear</span><input type="number" name="max_links_per_url" value="10000" min="1" max="100000" step="1" ></label><label class="numrow"><span>Tamanho máx. da página (KB) a rastrear</span><input type="number" name="max_page_kb" value="50000" min="16" max="102400" step="1" ></label></div></div><fieldset class="box grow"><legend>Limitar por caminho de URL</legend><p class="muted">Defina uma lista de padrões de URL (regex) e o número máximo de URLs a rastrear para cada um.</p><div class="tedit" id="te-path" data-empty="Nenhum limite por caminho configurado"></div><textarea hidden name="path_limits" data-lines></textarea></fieldset></section><section class="cfgsec" id="cfg-spider-rendering"><label class="numrow"><span>Renderização</span><select id="renderMode"><option value="text">Somente texto</option><option value="js">JavaScript</option></select></label><input type="checkbox" name="render_js" hidden><div id="jsOpts"><fieldset class="box "><legend>JavaScript</legend><label class="numrow"><span>Tempo de espera AJAX (s)</span><input type="number" name="render_wait" value="0" min="0" max="30" step="0.5" ></label><label class="numrow"><span>Tamanho da janela</span><select name="viewport"><option value="desktop">Desktop (1024×768)</option><option value="mobile">Mobile (411×731)</option></select></label></fieldset></div></section><section class="cfgsec" id="cfg-spider-advanced"><p class="cfgdesc">Ajuste várias configurações avançadas do crawler. Elas orientam o crawl e podem mudar o número de URLs descobertas, rastreadas e reportadas.</p><hr class="cfghr"><label class="numrow"><span>Armazenamento de cookies</span><select name="cookie_storage"><option value="session">Somente sessão</option><option value="persistent">Persistente</option><option value="none">Não armazenar</option></select></label><label class="check"><input type="checkbox" name="ignore_nonindexable_issues" checked > Ignorar URLs não indexáveis nos problemas</label><label class="check"><input type="checkbox" name="ignore_paginated_dups" checked > Ignorar URLs paginadas nos filtros de duplicados</label><label class="check"><input type="checkbox" name="always_follow_redirects" > Sempre seguir redirecionamentos</label><label class="check"><input type="checkbox" name="always_follow_canonicals" > Sempre seguir canonicals</label><label class="check"><input type="checkbox" name="respect_noindex" > Respeitar noindex</label><label class="check"><input type="checkbox" name="respect_canonical" > Respeitar canonicals</label><label class="check"><input type="checkbox" name="respect_next_prev" > Respeitar next/prev</label><label class="check"><input type="checkbox" name="respect_hsts" checked > Respeitar a política HSTS</label><label class="check"><input type="checkbox" name="respect_self_meta_refresh" > Respeitar meta refresh para a própria URL</label><label class="check"><input type="checkbox" name="img_srcset" > Extrair imagens do atributo srcset</label><label class="check"><input type="checkbox" name="crawl_fragments" > Rastrear identificadores de fragmento (#)</label><label class="check"><input type="checkbox" name="html_validation" checked > Fazer validação de HTML</label><label class="check"><input type="checkbox" name="carbon" > Cálculo de carbono e hospedagem verde</label><label class="check"><input type="checkbox" name="assume_html" > Considerar páginas como HTML</label><label class="numrow"><span>Timeout da resposta (s)</span><input type="number" name="timeout" value="20" min="1" max="120" step="1" ></label><label class="numrow"><span>Tentativas para respostas 5xx</span><input type="number" name="retries" value="2" min="0" max="5" step="1" ></label></section><section class="cfgsec" id="cfg-spider-preferences"><div class="cols2"><div><fieldset class="box "><legend>Largura do title</legend><div class="mmrow"><span>Pixels</span><label>Mín <input type="number" name="pref_title_px_min" value="200" min="0"></label><label>Máx <input type="number" name="pref_title_px_max" value="561" min="0"></label></div><div class="mmrow"><span>Caracteres</span><label>Mín <input type="number" name="pref_title_min" value="30" min="0"></label><label>Máx <input type="number" name="pref_title_max" value="60" min="0"></label></div></fieldset><fieldset class="box "><legend>Links</legend><label class="numrow"><span>Muitos outlinks externos</span><input type="number" name="pref_ext_outlinks" value="10" min="0" max="100000" step="1" ></label><label class="numrow"><span>Muitos outlinks internos</span><input type="number" name="pref_int_outlinks" value="1000" min="0" max="100000" step="1" ></label><label class="numrow"><span>Profundidade alta</span><input type="number" name="pref_deep" value="3" min="0" max="100000" step="1" ></label><p class="muted">Texto âncora não descritivo:</p><div class="tawrap"><textarea name="weak_anchors" data-lines rows="12" placeholder="">click here
+click this
+find out more
+go
+here
+learn more
+more
+over here
+read here
+read more
+right here
+start
+this
+clique aqui
+aqui
+saiba mais
+leia mais
+veja mais
+mais
+ver mais
+este link</textarea></div></fieldset></div><div><fieldset class="box "><legend>Largura da meta description</legend><div class="mmrow"><span>Pixels</span><label>Mín <input type="number" name="pref_md_px_min" value="400" min="0"></label><label>Máx <input type="number" name="pref_md_px_max" value="985" min="0"></label></div><div class="mmrow"><span>Caracteres</span><label>Mín <input type="number" name="pref_md_min" value="70" min="0"></label><label>Máx <input type="number" name="pref_md_max" value="155" min="0"></label></div></fieldset><fieldset class="box "><legend>Outros</legend><label class="numrow"><span>Comprimento máx. da URL (caracteres)</span><input type="number" name="pref_url_max" value="115" min="0" max="100000" step="1" ></label><label class="numrow"><span>Comprimento máx. do H1</span><input type="number" name="pref_h1_max" value="70" min="0" max="100000" step="1" ></label><label class="numrow"><span>Comprimento máx. do H2</span><input type="number" name="pref_h2_max" value="70" min="0" max="100000" step="1" ></label><label class="numrow"><span>Máx. caracteres do texto alt</span><input type="number" name="pref_alt_max" value="100" min="0" max="100000" step="1" ></label><label class="numrow"><span>Tamanho máx. da imagem (KB)</span><input type="number" name="pref_img_kb" value="100" min="0" max="100000" step="1" ></label><label class="numrow"><span>Contagem baixa de palavras</span><input type="number" name="pref_low_words" value="200" min="0" max="100000" step="1" ></label><label class="numrow"><span>Resposta lenta (s)</span><input type="number" name="pref_slow_s" value="1" min="0" max="60" step="0.1" ></label><p class="muted">Frases de soft 404:</p><div class="tawrap"><textarea name="soft404_phrases" data-lines rows="12" placeholder="">404 Not Found
+404 error
+410 Not Found
+can&#x27;t find the page
+can&#x27;t seem to find that page
+couldn&#x27;t find that page
+couldn&#x27;t find the page
+couldn&#x27;t find what you&#x27;re looking for
+error 404
+error occurred
+no products found
+no results found
+not found
+nothing found
+oops
+page not found
+page you requested could not be found
+this page doesn&#x27;t exist
+we can&#x27;t find
+página não encontrada
+não encontrada
+nada encontrado
+página no encontrada
+no encontrada</textarea></div></fieldset></div></div></section><section class="cfgsec" id="cfg-content-area"><p class="cfgdesc">Defina a área principal de conteúdo das páginas usada na contagem de palavras, n-gramas, quase duplicados e ortografia/gramática.</p><hr class="cfghr"><label class="check"><input type="checkbox" name="content_alt" > Considerar texto alt</label><fieldset class="box "><legend>Elementos HTML</legend><p class="muted" id="caHint">Lista de elementos HTML a excluir, um por linha</p><div class="radios"><span>Modo</span><label class="check"><input type="radio" data-radio="content_mode" value="include"> Inclusão</label><label class="check"><input type="radio" data-radio="content_mode" value="exclude"> Exclusão</label></div><input type="hidden" name="content_mode" value="exclude"><p class="mlabel" data-ca="tags">Excluir tags</p><div class="tawrap"><textarea name="content_tags" data-lines rows="4" placeholder="">nav
+footer</textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="content_tags">✎ Limpar</button></div></div><p class="mlabel" data-ca="classes">Excluir classes</p><div class="tawrap"><textarea name="content_classes" data-lines rows="4" placeholder=""></textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="content_classes">✎ Limpar</button></div></div><p class="mlabel" data-ca="ids">Excluir IDs</p><div class="tawrap"><textarea name="content_ids" data-lines rows="4" placeholder=""></textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="content_ids">✎ Limpar</button></div></div></fieldset></section><section class="cfgsec" id="cfg-content-duplicates"><p class="cfgdesc">Ative e ajuste as verificações de duplicados exatos e quase duplicados e o que aparece nos filtros correspondentes da aba Conteúdo.</p><hr class="cfghr"><label class="check"><input type="checkbox" name="dup_indexable_only" checked > Verificar duplicados só em páginas indexáveis</label><label class="check"><input type="checkbox" name="near_dups" > Ativar quase duplicados</label><label class="numrow"><span>Limite de similaridade de quase duplicado (%)</span><input type="number" name="near_dup_threshold" value="90" min="50" max="100" step="1" ></label></section><section class="cfgsec" id="cfg-content-spelling"><div class="ctabs" data-tabs="sp"><button type="button" class="on" data-tab="sp-settings">Configurações</button><button type="button" data-tab="sp-rules">Regras de gramática</button><button type="button" data-tab="sp-ignore">Ignorar</button><button type="button" data-tab="sp-dict">Dicionário</button></div><div class="ctab on" id="sp-settings"><p class="cfgdesc">Ative a verificação de ortografia e gramática do conteúdo principal de cada página. Os erros aparecem na aba Conteúdo.</p><hr class="cfghr"><label class="check"><input type="checkbox" name="spelling" > Ativar verificação ortográfica (offline)</label><label class="check"><input type="checkbox" name="grammar" > Ativar verificação gramatical (LanguageTool, online, até 200 páginas)</label><fieldset class="box "><legend>Idioma</legend><div class="radios"><label class="check"><input type="radio" data-radio="spell_mode" value="auto" checked> Automático</label><label class="check"><input type="radio" data-radio="spell_mode" value="manual"> Manual</label></div><select name="spell_lang"><option value="auto" hidden>Automático</option><option value="pt">Português</option><option value="en">Inglês</option><option value="es">Espanhol</option><option value="fr">Francês</option><option value="de">Alemão</option><option value="it">Italiano</option><option value="nl">Holandês</option></select></fieldset></div><div class="ctab" id="sp-rules"><p class="cfgdesc">Regras do LanguageTool a desativar, uma por linha (ex.: WHITESPACE_RULE, UPPERCASE_SENTENCE_START).</p><div class="tawrap"><textarea name="grammar_disabled" data-lines rows="10" placeholder="WHITESPACE_RULE
+UPPERCASE_SENTENCE_START"></textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="grammar_disabled">✎ Limpar</button></div></div></div><div class="ctab" id="sp-ignore"><p class="cfgdesc">Palavras ignoradas na verificação ortográfica deste crawl, uma por linha.</p><div class="tawrap"><textarea name="spell_ignore" data-lines rows="10" placeholder=""></textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="spell_ignore">✎ Limpar</button></div></div></div><div class="ctab" id="sp-dict"><p class="cfgdesc">Seu dicionário: palavras sempre consideradas corretas, uma por linha.</p><div class="tawrap"><textarea name="spell_dictionary" data-lines rows="10" placeholder=""></textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="spell_dictionary">✎ Limpar</button></div></div></div></section><section class="cfgsec" id="cfg-content-embeddings"><p class="cfgdesc">Configure a análise do site com embeddings (vetores). Eles alimentam a busca semântica e a visualização de clusters; similaridade semântica e baixa relevância aparecem na aba Conteúdo.</p><hr class="cfghr"><fieldset class="box "><legend>Configurações gerais</legend><label class="check"><input type="checkbox" name="semantic" checked > Ativar funcionalidade de embeddings</label><label class="numrow"><span>Prompt de embedding</span><select name="embedding_prompt" id="embPrompt"><option value="">Local (TF-IDF, offline)</option></select></label></fieldset><fieldset class="box "><legend>Similaridade semântica</legend><label class="check"><input type="checkbox" name="semantic_similarity" checked > Ativar similaridade semântica</label><label class="numrow"><span>Limite de similaridade semântica</span><input type="number" name="semantic_threshold" value="0.9" min="0.5" max="1" step="0.01" ></label><label class="check"><input type="checkbox" name="semantic_indexable_only" checked > Verificar só páginas indexáveis</label><label class="check"><input type="checkbox" name="semantic_ignore_paginated" checked > Ignorar páginas paginadas</label><p class="muted">Regras de filtro de embeddings</p><div class="tedit" id="te-embed" data-empty="Nenhuma regra de filtro configurada"></div><textarea hidden name="embedding_rules" data-lines></textarea></fieldset><fieldset class="box "><legend>Baixa relevância</legend><label class="check"><input type="checkbox" name="low_relevance_on" checked > Ativar baixa relevância</label><label class="numrow"><span>Limite de baixa relevância (0 = automático)</span><input type="number" name="low_relevance_threshold" value="0" min="0" max="1" step="0.01" ></label><label class="check"><input type="checkbox" name="low_relevance_indexable_only" checked > Verificar só páginas indexáveis</label><label class="check"><input type="checkbox" name="low_relevance_ignore_paginated" > Ignorar páginas paginadas</label></fieldset></section><section class="cfgsec" id="cfg-robots"><p class="cfgdesc">Defina como o SEO Spider interpreta o robots.txt. Por padrão ele é respeitado: URLs bloqueadas não são rastreadas. Você pode ignorá-lo ou usar um robots.txt personalizado.</p><hr class="cfghr"><label class="numrow"><span></span><select name="robots_mode"><option value="respect">Respeitar robots.txt</option><option value="ignore">Ignorar robots.txt</option><option value="report">Ignorar robots.txt, mas reportar o status</option></select></label><label class="check"><input type="checkbox" name="show_internal_blocked" checked > Mostrar URLs internas bloqueadas pelo robots.txt</label><label class="check"><input type="checkbox" name="show_external_blocked" > Mostrar URLs externas bloqueadas pelo robots.txt</label><label class="check"><input type="checkbox" name="respect_crawl_delay" checked > Respeitar Crawl-delay</label><fieldset class="box grow"><legend>robots.txt personalizado</legend><p class="muted">robots.txt por subdomínio. Escreva o seu ou baixe e modifique o do site.</p><div class="rbgrid"><div class="rblist"><div class="rbhead">Subdomínios</div><div id="rbHosts"></div><div class="tefoot"><button type="button" class="tbtn danger" id="rbDel">🗑 Excluir</button><span class="sp"></span><button type="button" class="tbtn" id="rbEdit">✎ Editar</button><button type="button" class="tbtn" id="rbAdd">＋ Adicionar</button></div></div><div class="rbedit"><div class="rbcode"><pre id="rbLines">1</pre><textarea id="rbText" spellcheck="false" translate="no"></textarea></div><div class="rbstat" id="rbPos">Ln 1, Col 1</div><div class="tefoot"><span class="sp"></span><button type="button" class="tbtn" id="rbDownload">⬇ Baixar robots.txt</button><button type="button" class="tbtn" id="rbClear">✎ Limpar</button></div><div class="rbtest"><input id="rbPath" placeholder="digite um caminho para testar"><button type="button" class="tbtn" id="rbTest">▶ Testar</button></div><div id="rbResult" class="muted"></div></div></div><textarea name="robots_custom" data-json hidden>{}</textarea></fieldset></section><section class="cfgsec" id="cfg-url-rewriting"><p class="cfgdesc">Reescreva as URLs rastreadas. Isso evita rastreamento desnecessário e reduz o tempo do crawl.</p><hr class="cfghr"><fieldset class="box "><legend>Remover parâmetros</legend><p class="muted">Lista de parâmetros removidos automaticamente (IDs de sessão, rastreamento, filtros). Um por linha; aceita *.</p><label class="check"><input type="checkbox" name="strip_all_params" > Remover todos</label><div class="tawrap"><textarea name="strip_params" data-lines rows="5" placeholder="">utm_*
+fbclid
+gclid</textarea><div class="tafoot"><button type="button" class="tbtn" data-clear="strip_params">✎ Limpar</button></div></div></fieldset><fieldset class="box "><legend>Substituição por regex</legend><p class="muted">Use regex para localizar um trecho da URL e sua substituição. Ex.: para trocar todos os links por https, a regex é 'http:' e a substituição 'https:'.</p><div class="tedit" id="te-rewrite" data-empty="Nenhuma regra de reescrita configurada"></div><textarea hidden name="url_rewrite" data-lines></textarea></fieldset><label class="check"><input type="checkbox" name="lowercase_urls" > Converter URLs descobertas para minúsculas</label><label class="numrow"><span>Modo de codificação %</span><select name="url_pct_case"><option value="upper">Maiúsculas</option><option value="lower">Minúsculas</option></select></label><label class="numrow wide"><span>URL antes da reescrita</span><input id="rwBefore" value="https://www.example.com"></label><label class="numrow wide"><span>URL depois da reescrita</span><input id="rwAfter" readonly></label></section><section class="cfgsec" id="cfg-cdns"><p class="cfgdesc">Lista de CDNs (com subdomínio e subpasta) a considerar como URLs internas. Ex.: cdn.com/exemplo/ faz URLs desse subdomínio e subpasta serem internas, mesmo que o crawl comece em www.exemplo.com. Um por linha.</p><hr class="cfghr"><div class="tawrap"><textarea name="cdn_domains" data-lines rows="12" placeholder=""></textarea></div><label class="numrow wide"><span>URL inicial</span><input id="cdnStart"></label><label class="numrow wide"><span>URL de teste</span><input id="cdnTest"></label><div class="numrow wide"><span>Resultado</span><b id="cdnRes"></b></div></section><section class="cfgsec" id="cfg-include"><p class="cfgdesc">Restrinja as URLs que o SEO Spider rastreia usando regex parcial. Informe regex das URLs a rastrear (ex.: /incluir-esta-pasta/). Uma por linha.</p><hr class="cfghr"><div class="tawrap"><textarea name="include" data-lines rows="12" placeholder=""></textarea></div><label class="numrow wide"><span>URL de teste</span><input id="includeTest" value="https://www.example.com"></label><label class="numrow wide"><span>URL codificada</span><input id="includeEnc" readonly></label><div id="includeRes"></div></section><section class="cfgsec" id="cfg-exclude"><p class="cfgdesc">Restrinja as URLs que o SEO Spider rastreia usando regex parcial. Informe regex das URLs a excluir (ex.: /excluir-esta-pasta/). Uma por linha.</p><hr class="cfghr"><div class="tawrap"><textarea name="exclude" data-lines rows="12" placeholder=""></textarea></div><label class="numrow wide"><span>URL de teste</span><input id="excludeTest" value="https://www.example.com"></label><label class="numrow wide"><span>URL codificada</span><input id="excludeEnc" readonly></label><div id="excludeRes"></div></section><section class="cfgsec" id="cfg-speed"><p class="cfgdesc">Controle a velocidade das requisições, por número de threads simultâneas ou URLs por segundo. Mais threads aumentam a velocidade, mas use com responsabilidade: muitas requisições podem afetar o tempo de resposta e a estabilidade do servidor.</p><hr class="cfghr"><label class="numrow"><span>Máx. threads</span><input type="number" name="concurrency" value="5" min="1" max="50" step="1" ></label><label class="check"><input type="checkbox" name="limit_rps" > Limitar URL/s</label><label class="numrow"><span>Máx. URL/s</span><input type="number" name="max_rps" value="2" min="0.1" max="100" step="0.1" ></label></section><section class="cfgsec" id="cfg-user-agent"><p class="cfgdesc">Ajuste o user-agent usado no crawl. Escolha entre robôs de busca e navegadores ou personalize. Isso afeta quais diretivas do robots.txt são seguidas e reportadas.</p><hr class="cfghr"><label class="numrow wide"><span>User-Agents predefinidos</span><select id="uaPreset"><option value="SEOSpiderClone/1.0">SEO Spider (padrão)</option><option value="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36">Chrome (desktop)</option><option value="Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36">Chrome (mobile)</option><option value="Mozilla/5.0 (Linux; Android 6.0.1; Nexus 5X Build/MMB29P) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Mobile Safari/537.36 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)">Googlebot (smartphone)</option><option value="Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)">Googlebot (desktop)</option><option value="Mozilla/5.0 (compatible; bingbot/2.0; +http://www.bing.com/bingbot.htm)">Bingbot</option><option value="">Personalizado</option></select></label><label class="numrow wide"><span>User-Agent da requisição HTTP</span><input name="user_agent" type="text" value="SEOSpiderClone/1.0"></label><label class="numrow wide"><span>User-Agent do robots.txt</span><input name="robots_ua" type="text" placeholder="(igual ao User-Agent da requisição)"></label></section><section class="cfgsec" id="cfg-http-header"><p class="cfgdesc">Ajuste os cabeçalhos HTTP usados no crawl. Defina qualquer cabeçalho ou valor, como Accept-Language, Cookie, Referer e outros.</p><hr class="cfghr"><div class="cfginfo "><b>ⓘ Info</b><div>O User-Agent é configurado no menu User-Agent.</div></div><div class="uarow"><input readonly value="User-Agent"><input readonly id="hdrUa"></div><div class="tedit" id="te-headers" data-empty="Nenhum cabeçalho personalizado"></div><textarea hidden name="custom_headers" data-lines></textarea></section><section class="cfgsec" id="cfg-custom-search"><p class="cfgdesc">Pesquise o código-fonte ou o conteúdo das páginas HTML internas. Os resultados aparecem na aba Pesquisa personalizada.</p><hr class="cfghr"><div class="tedit" id="te-search" data-empty="Nenhuma pesquisa personalizada configurada"></div><textarea hidden name="custom_search" data-customsearch></textarea><label class="check"><input type="checkbox" name="custom_search_case" > Diferenciar maiúsculas/minúsculas</label></section><section class="cfgsec" id="cfg-custom-extraction"><p class="cfgdesc">Extraia dados das páginas HTML internas usando XPath, seletor CSS ou regex. Os resultados aparecem na aba Extração personalizada.</p><hr class="cfghr"><div class="tedit" id="te-extract" data-empty="Nenhum extrator personalizado configurado"></div><textarea hidden name="extractors" data-extractors></textarea></section><section class="cfgsec" id="cfg-custom-linkpos"><p class="cfgdesc">Defina a posição dos links na página. Informe o nome da posição e um termo (substring) do caminho do link para classificá-lo. Termos mais acima na lista têm prioridade.</p><hr class="cfghr"><label class="check"><input type="checkbox" name="link_pos_enabled" checked > Ativar</label><div class="tedit" id="te-linkpos" data-empty="Usando a classificação padrão (navegação, cabeçalho, rodapé, lateral, conteúdo)"></div><textarea hidden name="link_positions" data-lines></textarea><fieldset class="box "><legend>Teste</legend><p class="muted">Digite o caminho de um link que pode aparecer no crawl e veja como ele seria classificado.</p><label class="stack">Caminho do link<input id="lpPath" value="/body/header/div/"></label><p class="muted">Posição encontrada</p><b id="lpRes"></b></fieldset></section><section class="cfgsec" id="cfg-custom-js"><p class="cfgdesc">Execute snippets de JavaScript personalizados nas URLs internas. É preciso ativar a renderização JavaScript para usar este recurso.</p><hr class="cfghr"><div class="cfginfo "><b>ⓘ Nota de privacidade</b><div><p>• Snippets de JavaScript personalizados podem enviar dados para serviços ou APIs de terceiros (ex.: ChatGPT). Você é responsável pela privacidade desses dados.</p><p>• Antes de compartilhar snippets, remova chaves de API e outros dados sensíveis.</p></div></div><div class="tedit" id="te-js"></div></section><section class="cfgsec" id="cfg-api"><p class="cfgdesc">Configure e conecte várias APIs de terceiros para coletar dados, insights e problemas adicionais durante o crawl.</p><hr class="cfghr"><div id="apiList" class="apilist"></div></section><section class="cfgsec" id="cfg-api-detail"><div id="apiMount"></div><div id="apiStatus" class="apistatus">Não conectado</div></section><section class="cfgsec" id="cfg-auth-standards"><p class="cfgdesc">Se o site usa autenticação HTTP (basic), o SEO Spider faz login automaticamente com os dados informados abaixo.</p><hr class="cfghr"><label class="check"><input type="checkbox" name="allow_standards_auth" checked > Permitir autenticação baseada em padrões</label><fieldset class="box grow"><legend>Dados de autenticação</legend><div class="tedit" id="te-auth" data-empty="Nenhum dado de autenticação"></div><textarea hidden name="auth_entries" data-json data-nosave></textarea><p class="muted">As senhas ficam só na memória desta janela e não são salvas nos perfis nem nos crawls.</p><input name="auth_user" type="hidden" data-nosave><input name="auth_pass" type="hidden" data-nosave></fieldset></section><section class="cfgsec" id="cfg-auth-forms"><p class="cfgdesc">Clique em Adicionar e informe a URL de um formulário de login para autenticar o SEO Spider e rastrear a área logada.</p><hr class="cfghr"><div class="cfginfo warn"><b>ⓘ Aviso</b><div>Se você fizer login e rastrear o site, o SEO Spider clica em todos os links da página, inclusive links que adicionam ou apagam dados. Use a configuração Excluir para evitar essas URLs.</div></div><div class="cfginfo "><b>ⓘ Info</b><div>Os dados precisam ser renovados quando os cookies expirarem ou o site revogar o acesso.</div></div><fieldset class="box grow"><legend>Dados de autenticação</legend><div id="faList" class="telist"></div><div class="tefoot"><button type="button" class="tbtn danger" id="faDelete">🗑 Excluir</button><span class="sp"></span><button type="button" class="tbtn" id="faOpen">＋ Adicionar</button></div><label class="check"><input type="checkbox" name="use_form_auth" checked > Usar estas sessões no crawl</label></fieldset><p class="muted" id="faUa"></p></section><section class="cfgsec" id="cfg-auth-profiles"><p class="cfgdesc">Exporte e importe uma configuração de autenticação para o SEO Spider entrar no site automaticamente em crawls agendados ou pela linha de comando.</p><hr class="cfghr"><div class="cfginfo warn"><b>ⓘ Aviso</b><div>Os dados de autenticação salvos ficam em arquivos locais (em texto). Guarde-os em local seguro.</div></div><h4 class="sec">Importar/exportar configuração</h4><p class="muted">Os dados de autenticação podem ser exportados para um arquivo local e importados depois ou usados em crawls agendados.</p><button type="button" class="tbtn" id="apImport">⬆ Importar…</button> <button type="button" class="tbtn" id="apExport">⬇ Exportar…</button><input type="file" id="apFile" accept=".json" hidden><h4 class="sec">Configuração padrão</h4><p class="muted">Com uma configuração padrão, estes dados de autenticação são carregados ao abrir o SEO Spider e usados em todos os crawls quando nenhuma outra for escolhida.</p><button type="button" class="tbtn" id="apSetDef">✎ Definir atual como padrão</button> <button type="button" class="tbtn" id="apClearDef">🗑 Limpar padrão</button> <span id="apMsg" class="muted"></span></section><section class="cfgsec" id="cfg-segments"><p class="cfgdesc">Crie segmentos por template, tipo de página ou seção do site para identificar e acompanhar problemas e oportunidades de SEO e focar nas áreas prioritárias.</p><hr class="cfghr"><div class="seggrid"><div class="seglist"><div class="seghead"><button type="button" class="tbtn" data-seg="sortaz" title="Ordenar A-Z">↓A</button><button type="button" class="tbtn" data-seg="sortza" title="Ordenar Z-A">↑Z</button><span class="sp"></span><button type="button" class="tbtn" data-seg="down" title="Mover para baixo">⌄</button><button type="button" class="tbtn" data-seg="up" title="Mover para cima">⌃</button></div><div id="segItems"></div><div class="tefoot"><button type="button" class="tbtn danger" data-seg="del" title="Excluir">🗑</button><span class="sp"></span><button type="button" class="tbtn" data-seg="dup" title="Duplicar">⧉</button><button type="button" class="tbtn" data-seg="add">＋ Adicionar</button></div></div><div class="segedit" id="segEdit"></div></div><textarea name="segments" data-lines hidden></textarea></section><section class="cfgsec" id="cfg-crawl-analysis"><p class="cfgdesc">Alguns dados e filtros só podem ser calculados analisando o crawl quando ele está parado ou concluído. Para rodar, use Análise de crawl &gt; Iniciar no menu, ou ative 'Analisar automaticamente no fim do crawl' abaixo.</p><hr class="cfghr"><div class="anlist">
+          <label class="check"><input name="analysis_link_score" type="checkbox" checked> <b>Link Score</b><small>Atribui um Link Score a todas as URLs internas</small></label>
+          <label class="check"><input name="analysis_response_codes" type="checkbox" checked> <b>Códigos de resposta</b><small>Cadeia de redirect interna, loop de redirect</small></label>
+          <label class="check"><input name="analysis_content" type="checkbox" checked> <b>Conteúdo</b><small>Quase duplicados, semanticamente similares, baixa relevância</small></label>
+          <label class="check"><input name="analysis_canonicals" type="checkbox" checked> <b>Canonicals</b><small>Canonical não indexável, sem link interno</small></label>
+          <label class="check"><input name="analysis_pagination" type="checkbox" checked> <b>Paginação</b><small>URLs de paginação sem link, não-200, loop de paginação</small></label>
+          <label class="check"><input name="analysis_hreflang" type="checkbox" checked> <b>Hreflang</b><small>URLs hreflang sem link, links de retorno ausentes</small></label>
+          <label class="check"><input name="analysis_links" type="checkbox" checked> <b>Links</b><small>Inlinks follow e nofollow, só inlinks nofollow, só inlinks de páginas não indexáveis</small></label>
+          <label class="check"><input name="analysis_sitemaps" type="checkbox" checked> <b>Sitemaps</b><small>URLs fora da sitemap, URLs órfãs, URLs em várias sitemaps</small></label>
+          <label class="check"><input name="analysis_analytics" type="checkbox" checked> <b>Analytics</b><small>URLs órfãs</small></label>
+          <label class="check"><input name="analysis_search_console" type="checkbox" checked> <b>Search Console</b><small>URLs órfãs</small></label>
+        </div><label class="check"><input type="checkbox" name="auto_analyse" checked > Analisar automaticamente no fim do crawl</label></section><section class="cfgsec" id="cfg-overview"><div id="ovBody"></div></section>
+      </div></section>
+    </div>
+    <div class="wfoot">
+      <span class="profiles" hidden><select id="profSel"></select><button class="tbtn" id="profLoad" type="button">Carregar</button>
+        <button class="tbtn" id="profSave" type="button">Salvar como…</button><button class="tbtn" id="profDel" type="button">Excluir</button>
+        <button class="tbtn" id="profExport" type="button">Exportar</button><button class="tbtn" id="profCli" type="button">Exportar p/ CLI</button>
+        <input type="file" id="profImport" accept=".json" hidden></span>
+      <span class="sp"></span><button class="tbtn primary" id="cfgOk" data-close>OK</button><button class="tbtn" id="cfgCancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="listModal" hidden>
+  <div class="window">
+    <div class="wtitle">Modo Lista — URLs <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <label class="stack">Cole uma URL por linha ou carregue um arquivo .txt/.csv
+        <textarea name="url_list" data-lines rows="14" placeholder="https://exemplo.com/pagina-1&#10;https://exemplo.com/pagina-2"></textarea></label>
+      <input type="file" id="listFile" accept=".txt,.csv">
+    </div>
+    <div class="wfoot"><button class="tbtn primary" data-close>OK</button></div>
+  </div>
+</div>
+
+<div class="modal" id="vizModal" hidden>
+  <div class="window huge">
+    <div class="wtitle">Visualizações <button class="wclose" data-close>✕</button></div>
+    <div class="wbody" id="viz"></div>
+  </div>
+</div>
+
+<div class="modal" id="apiModal" hidden>
+  <div class="window">
+    <div class="wtitle"><span id="apiTitle" translate="no"></span> <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <p class="muted" id="apiHelp"></p>
+      <div id="apiForm" class="apiform"></div>
+      <div class="apiactions">
+        <button class="tbtn" id="apiOauth" type="button" hidden>Entrar com Google</button><span id="apiOauthState" class="s2"></span>
+        <button class="tbtn" id="apiOptions" type="button" hidden></button>
+      </div>
+      <div id="apiMsg" class="apimsg"></div>
+    </div>
+    <div class="wfoot"><button class="tbtn" id="apiDisconnect" type="button">Desconectar</button> <button class="tbtn primary" id="apiConnect" type="button">Conectar</button> <button class="tbtn" data-close>Fechar</button></div>
+  </div>
+</div>
+
+<div class="modal" id="jsModal" hidden>
+  <div class="window huge">
+    <div class="wtitle">JavaScript personalizado <button class="wclose" data-close>✕</button></div>
+    <div class="wbody jsbody">
+      <div class="jsside">
+        <div class="jstools">
+          <button class="tbtn" id="jsAdd" type="button">+ Adicionar</button>
+          <button class="tbtn" id="jsLibBtn" type="button">Adicionar da biblioteca</button>
+        </div>
+        <div id="jsList" class="jslist"></div>
+        <div class="jstools">
+          <button class="tbtn" id="jsExport" type="button">Exportar JSON</button>
+          <label class="tbtn">Importar JSON<input type="file" id="jsImport" accept=".json" hidden></label>
+          <span class="muted" id="jsCount" translate="no"></span>
+        </div>
+      </div>
+      <div class="jsmain">
+        <div id="jsEditor" class="jseditor" hidden>
+          <div class="jsrow">
+            <label class="stack">Nome<input id="jsName" type="text" autocomplete="off"></label>
+            <label class="stack">Tipo<select id="jsType"><option value="extraction">Extração</option><option value="action">Ação</option></select></label>
+            <label class="stack">Tipo de conteúdo<select id="jsCtype">
+              <option value="text/html">text/html</option><option value="image/">image/</option>
+              <option value="application/pdf">application/pdf</option><option value="*">*</option></select></label>
+            <label class="stack">Timeout (s)<input id="jsTimeout" type="number" min="1" max="300"></label>
+          </div>
+          <textarea id="jsCode" class="jscode" spellcheck="false" translate="no"></textarea>
+          <div class="jstools">
+            <button class="tbtn" id="jsSaveUser" type="button">Salvar na biblioteca do usuário</button>
+            <button class="tbtn" id="jsRemove" type="button">Remover</button>
+            <span class="muted">Use <code>return seoSpider.data(valor)</code> para devolver o resultado e <code>await seoSpider.openai(prompt, conteúdo, opções)</code> para usar a OpenAI conectada na aba API.</span>
+          </div>
+          <div class="jstest">
+            <input id="jsTestUrl" type="text" placeholder="https://exemplo.com/" autocomplete="off">
+            <button class="tbtn primary" id="jsTestBtn" type="button">▶ Testar</button>
+          </div>
+          <pre id="jsTestOut" class="jsout"></pre>
+        </div>
+        <div id="jsEmpty" class="empty">Nenhum snippet selecionado.</div>
+      </div>
+    </div>
+    <div class="wfoot"><span class="muted jsnote">Os snippets rodam no navegador Chromium durante o crawl (as páginas são abertas no navegador mesmo sem “Renderizar JavaScript”).</span> <button class="tbtn primary" data-close>OK</button></div>
+  </div>
+</div>
+
+<div class="modal" id="jsLibModal" hidden>
+  <div class="window wide">
+    <div class="wtitle">Biblioteca de snippets <button class="wclose" data-close>✕</button></div>
+    <div class="tabbar"><nav class="tabs" id="jsLibTabs"><button data-lib="system" class="active">Sistema</button><button data-lib="user">Usuário</button></nav></div>
+    <div class="wbody" id="jsLibList"></div>
+  </div>
+</div>
+
+<div class="modal" id="robotsModal" hidden>
+  <div class="window wide">
+    <div class="wtitle">Testador de robots.txt <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <div class="jsrow2">
+        <label class="stack">Site<input id="robotsUrl" type="text" autocomplete="off"></label>
+        <label class="stack">User-Agent<input id="robotsUa" type="text" autocomplete="off"></label>
+        <button class="tbtn" id="robotsLoad" type="button">Carregar robots.txt</button>
+      </div>
+      <div class="muted" id="robotsMsg" translate="no"></div>
+      <label class="stack">robots.txt (editável)<textarea id="robotsText" rows="9" class="jscode" spellcheck="false" translate="no"></textarea></label>
+      <label class="check"><input type="checkbox" id="robotsUse"> Usar este robots.txt no próximo crawl deste site (em vez do robots.txt real)</label>
+      <textarea name="robots_override" hidden></textarea>
+      <label class="stack">URLs para testar (uma por linha)<textarea id="robotsUrls" rows="4" translate="no"></textarea></label>
+      <button class="tbtn primary" id="robotsTest" type="button">▶ Testar</button>
+      <div id="robotsResult"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="whyModal" hidden>
+  <div class="window">
+    <div class="wtitle">Por que uma URL não foi rastreada? <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <div class="jstest"><input id="whyUrl" type="text" placeholder="https://exemplo.com/pagina" autocomplete="off"><button class="tbtn primary" id="whyBtn" type="button">Verificar</button></div>
+      <div id="whyOut"></div>
+      <p class="muted">Para a lista completa: Exportação em massa → URLs não rastreadas (com motivo).</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="sitemapModal" hidden>
+  <div class="window">
+    <div class="wtitle">Gerar XML Sitemap <button class="wclose" data-close>✕</button></div>
+    <div class="wbody cfg one">
+      <label class="check"><input type="checkbox" data-sm="include_noindex"> Incluir páginas com noindex</label>
+      <label class="check"><input type="checkbox" data-sm="include_pdf"> Incluir PDFs</label>
+      <label class="check"><input type="checkbox" data-sm="images"> Incluir imagens (image sitemap)</label>
+      <label>Last modified <select data-sm="lastmod"><option value="none">Não incluir</option><option value="crawl">Data do crawl</option><option value="server">Cabeçalho Last-Modified do servidor</option></select></label>
+      <label>Prioridade <select data-sm="priority"><option value="none">Não incluir</option><option value="depth">Pela profundidade (home = 1.0)</option><option value="fixed">Valor fixo</option></select></label>
+      <label>Valor fixo da prioridade <input type="number" data-sm="priority_value" min="0" max="1" step="0.1" value="0.5"></label>
+      <label>Frequência de alteração <select data-sm="changefreq"><option value="none">Não incluir</option><option value="daily">daily</option><option value="weekly">weekly</option><option value="monthly">monthly</option><option value="yearly">yearly</option></select></label>
+      <label>Máx. de URLs por arquivo (acima disso gera um ZIP com sitemap index) <input type="number" data-sm="max_per_file" min="100" max="50000" value="50000"></label>
+    </div>
+    <div class="wfoot"><button class="tbtn primary" id="smGen" type="button">Gerar</button></div>
+  </div>
+</div>
+
+<div class="modal" id="formAuthModal" hidden>
+  <div class="window">
+    <div class="wtitle">Login por formulário <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <p class="muted">Abre um navegador de verdade na página de login. Entre normalmente com seu usuário e senha; ao concluir, o app guarda os cookies da sessão e o crawler passa a usá-los.</p>
+      <div class="jstest"><input id="faUrl" type="text" placeholder="https://exemplo.com/login" autocomplete="off"><button class="tbtn" id="faStart" type="button">Abrir navegador para login</button></div>
+      <div class="jstools"><button class="tbtn primary" id="faFinish" type="button" disabled>Concluí o login — salvar sessão</button><button class="tbtn" id="faClear" type="button">Apagar sessão salva</button></div>
+      <p id="faState"></p>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="crawlsModal" hidden>
+  <div class="window huge">
+    <div class="wtitle">Crawls salvos <button class="wclose" data-close>✕</button></div>
+    <div class="toolbar">
+      <button class="tbtn" id="crSave" type="button">Salvar crawl atual</button>
+      <label class="tbtn">Importar arquivo<input type="file" id="crImport" accept=".gz,.json.gz" hidden></label>
+      <label class="filter"><select id="crProject"></select></label>
+      <span class="muted">Os crawls são salvos automaticamente ao terminar, em data/crawls.</span>
+    </div>
+    <div class="wbody" id="crList"></div>
+  </div>
+</div>
+
+<div class="modal" id="compareModal" hidden>
+  <div class="window huge">
+    <div class="wtitle">Comparação de crawls <button class="wclose" data-close>✕</button></div>
+    <div class="toolbar">
+      <label class="stack">Crawl anterior<select id="cmpPrev"></select></label>
+      <label class="stack">Crawl atual<select id="cmpCurr"></select></label>
+      <button class="tbtn primary" id="cmpRun" type="button">Comparar</button>
+      <button class="tbtn" id="cmpExport" type="button">Exportar</button>
+      <button class="tbtn" id="cmpMain" type="button">Mostrar na tela principal</button>
+    </div>
+    <div class="tabbar"><nav class="tabs" id="cmpTabs">
+      <button data-cmp="issues" class="active">Problemas</button><button data-cmp="changes">Detecção de mudanças</button>
+      <button data-cmp="new">URLs novas</button><button data-cmp="missing">URLs ausentes</button></nav></div>
+    <div class="wbody" id="cmpBody"><div class="empty">Escolha dois crawls e clique em Comparar.</div></div>
+  </div>
+</div>
+
+<div class="modal" id="schedModal" hidden>
+  <div class="window huge">
+    <div class="wtitle">Agendamento <button class="wclose" data-close>✕</button></div>
+    <div class="wbody">
+      <p class="muted">Os crawls agendados rodam enquanto o SEO Spider estiver aberto (run.bat), são salvos em Crawls salvos e as exportações vão para a pasta escolhida. Para rodar com o app fechado, use o comando abaixo no Agendador de Tarefas do Windows.</p>
+      <div id="schedList"></div>
+      <form id="schedForm" class="schedform">
+        <input type="hidden" name="id">
+        <fieldset><legend>Agendamento</legend>
+          <label>Nome <input name="name" required maxlength="100" value="Crawl agendado"></label>
+          <label>URL inicial <input name="url" placeholder="https://www.exemplo.com"></label>
+          <label>Projeto <input name="project"></label>
+          <label>Frequência <select name="frequency"><option value="once">Uma vez</option><option value="daily" selected>Diária</option><option value="weekly">Semanal</option><option value="monthly">Mensal</option></select></label>
+          <label data-f="once">Data <input name="date" type="date"></label>
+          <label>Hora <input name="time" type="time" value="03:00" required></label>
+          <label data-f="weekly">Dia da semana <select name="weekday"><option value="0">Segunda</option><option value="1">Terça</option><option value="2">Quarta</option><option value="3">Quinta</option><option value="4">Sexta</option><option value="5">Sábado</option><option value="6">Domingo</option></select></label>
+          <label data-f="monthly">Dia do mês <input name="day" type="number" min="1" max="28" value="1"></label>
+          <label>Configuração <select name="profile"></select></label>
+          <label class="check" title="Compara automaticamente com o crawl mais recente do mesmo projeto"><input name="auto_compare" type="checkbox"> Comparar crawls automaticamente</label>
+          <label class="check"><input name="enabled" type="checkbox" checked> Ativo</label>
+        </fieldset>
+        <fieldset><legend>Exportações</legend>
+          <div class="schedexp">
+            <label class="check"><input type="checkbox" value="xlsx" checked> Excel completo</label>
+            <label class="check"><input type="checkbox" value="issues" checked> Todos os problemas</label>
+            <label class="check"><input type="checkbox" value="report:overview"> Resumo do crawl</label>
+            <label class="check"><input type="checkbox" value="broken"> Links quebrados</label>
+            <label class="check"><input type="checkbox" value="all-links"> Todos os links</label>
+            <label class="check"><input type="checkbox" value="images-missing-alt"> Imagens sem texto alt</label>
+            <label class="check"><input type="checkbox" value="report:redirect-chains"> Cadeias de redirect</label>
+            <label class="check"><input type="checkbox" value="report:orphans"> Páginas órfãs</label>
+            <label class="check"><input type="checkbox" value="accessibility"> Acessibilidade</label>
+          </div>
+          <label>Pasta de saída <input name="output_dir" placeholder=""></label>
+          <label class="check" title="Relatórios sem dados não são criados"><input name="skip_empty" type="checkbox"> Pular relatórios vazios</label>
+        </fieldset>
+        <div class="wfoot"><button type="button" class="tbtn" id="schedNew">Novo</button><button class="tbtn primary" type="submit">Salvar agendamento</button></div>
+      </form>
+      <h4 class="sec">Linha de comando (CLI)</h4>
+      <pre class="cli" id="schedCli"></pre>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="setModal" hidden>
+  <div class="window cfgwin">
+    <div class="wtitle sfbar"><span class="appico">🕷</span><span>Configurações</span><span class="sp"></span>
+      <button type="button" class="wbtn" data-max title="Maximizar">❐</button><button type="button" class="wbtn" data-close title="Fechar">✕</button></div>
+    <div class="cfg2">
+      <aside class="cfgside"><input id="setSearch" type="search" placeholder="Buscar..."><nav class="cfgnav" id="setNav">
+        <div class="tn" data-set-page="licence"><span class="arr"></span><span class="lb">Licença</span></div><div class="tn" data-set-page="ui"><span class="arr"></span><span class="lb">Interface</span></div><div class="tn" data-set-page="language"><span class="arr"></span><span class="lb">Idioma</span></div><div class="tn" data-set-page="proxy"><span class="arr"></span><span class="lb">Proxy</span></div><div class="tn" data-set-page="storage"><span class="arr"></span><span class="lb">Modo de armazenamento</span></div><div class="tn" data-set-page="retention"><span class="arr"></span><span class="lb">Retenção de crawls</span></div><div class="tn" data-set-page="memory"><span class="arr"></span><span class="lb">Alocação de memória</span></div><div class="tn" data-set-page="browser"><span class="arr"></span><span class="lb">Navegador embutido</span></div><div class="tn" data-set-page="certs"><span class="arr"></span><span class="lb">Certificados confiáveis</span></div><div class="tn" data-set-page="notify"><span class="arr"></span><span class="lb">Notificações</span></div>
+      </nav></aside>
+      <section class="cfgpane"><h2 class="cfgcrumb" id="setCrumb"></h2><div class="cfgpages"><section class="cfgsec" id="set-licence"><p class="cfgdesc">Informações sobre este SEO Spider.</p><hr class="cfghr"><div class="cfginfo"><b>ⓘ Info</b><div>Este SEO Spider é um aplicativo local e gratuito: todas as funções estão liberadas, sem licença e sem limite de URLs além do configurado em Configuração &gt; Spider &gt; Limites.</div></div><div class="kvgrid" id="setAbout"></div></section><section class="cfgsec" id="set-ui"><p class="cfgdesc">Ajuste a aparência do SEO Spider.</p><hr class="cfghr"><fieldset class="box"><legend>Tema</legend><div class="radios"><label class="check"><input type="radio" name="set_theme" value="light"> Claro</label><label class="check"><input type="radio" name="set_theme" value="dark"> Escuro</label></div></fieldset><fieldset class="box"><legend>Cor de destaque</legend><div class="accents" id="setAccents"></div><label class="numrow"><span>Personalizada</span><input type="color" id="setAccent"></label><button type="button" class="tbtn" id="setAccentReset">↺ Restaurar padrão</button></fieldset></section><section class="cfgsec" id="set-language"><p class="cfgdesc">Idioma da interface e das exportações.</p><hr class="cfghr"><label class="numrow"><span>Idioma</span><select id="setLang"><option value="pt">Português</option><option value="en">English</option><option value="es">Español</option></select></label></section><section class="cfgsec" id="set-proxy"><p class="cfgdesc">Configure um servidor proxy para as requisições do SEO Spider (crawl, sitemaps, robots.txt e verificação de links). Vale a partir do próximo crawl.</p><hr class="cfghr"><label class="check"><input type="checkbox" data-set="proxy_on"> Usar servidor proxy</label><label class="numrow"><span>Endereço</span><input data-set="proxy_host" type="text" placeholder="proxy.exemplo.com"></label><label class="numrow"><span>Porta</span><input data-set="proxy_port" type="number" min="1" max="65535" placeholder="8080"></label><label class="numrow"><span>Usuário</span><input data-set="proxy_user" type="text" autocomplete="off"></label><label class="numrow"><span>Senha</span><input id="setProxyPass" type="password" autocomplete="off"></label><p class="muted">A senha do proxy fica só na memória desta aba e não é salva.</p><div class="cfginfo"><b>ⓘ Info</b><div>Só um proxy pode ser configurado, e todo o tráfego HTTP/HTTPS do crawl passa por ele.</div></div></section><section class="cfgsec" id="set-storage"><p class="cfgdesc">O SEO Spider pode salvar cada crawl automaticamente em disco (banco de dados) ou manter o crawl só na memória até você salvar.</p><hr class="cfghr"><div class="radios col"><label class="check"><input type="radio" name="set_storage" value="db"> Banco de dados — os crawls são salvos automaticamente ao terminar e ficam em Arquivo &gt; Crawls</label><label class="check"><input type="radio" name="set_storage" value="memory"> Memória — o crawl só é salvo quando você usa Arquivo &gt; Salvar</label></div><div class="kvgrid" id="setStorageInfo"></div></section><section class="cfgsec" id="set-retention"><p class="cfgdesc">Defina por quanto tempo os crawls salvos são mantidos. A limpeza roda ao abrir o SEO Spider e quando você clica em Aplicar agora.</p><hr class="cfghr"><div class="radios col"><label class="check"><input type="radio" name="set_retention" value="all"> Manter todos os crawls</label><label class="check"><input type="radio" name="set_retention" value="days"> Excluir crawls com mais de <input data-set="retention_days" type="number" min="1" max="3650" value="90" class="inl"> dias</label><label class="check"><input type="radio" name="set_retention" value="keep"> Manter só os <input data-set="retention_keep" type="number" min="1" max="10000" value="50" class="inl"> crawls mais recentes</label></div><div><button type="button" class="tbtn" id="setRetApply">Aplicar agora…</button> <span id="setRetMsg" class="muted"></span></div><div class="cfginfo warn"><b>⚠ Aviso</b><div>Crawls excluídos pela retenção não podem ser recuperados. O crawl aberto nunca é excluído.</div></div></section><section class="cfgsec" id="set-memory"><p class="cfgdesc">Uso de memória do SEO Spider. O Python aloca memória automaticamente; não é preciso reservar um valor fixo.</p><hr class="cfghr"><div class="kvgrid" id="setMemory"></div><button type="button" class="tbtn" id="setMemRefresh">↻ Atualizar</button></section><section class="cfgsec" id="set-browser"><p class="cfgdesc">O navegador embutido (Chromium) é usado na renderização JavaScript, no JavaScript personalizado, na auditoria de acessibilidade e no login por formulário.</p><hr class="cfghr"><div class="kvgrid" id="setBrowser"></div><div><button type="button" class="tbtn" id="setBrowserInstall">⬇ Instalar / atualizar Chromium</button></div><pre class="cli" id="setBrowserLog" hidden></pre></section><section class="cfgsec" id="set-certs"><p class="cfgdesc">Adicione certificados de autoridades (CA) em formato PEM para rastrear sites com certificados internos, de homologação ou de proxies corporativos.</p><hr class="cfghr"><textarea id="setCerts" rows="14" spellcheck="false" placeholder="-----BEGIN CERTIFICATE-----&#10;...&#10;-----END CERTIFICATE-----"></textarea><div><label class="tbtn">⬆ Importar arquivo…<input type="file" id="setCertFile" accept=".pem,.crt,.cer" hidden></label> <button type="button" class="tbtn" id="setCertSave">Salvar certificados</button> <span id="setCertMsg" class="muted"></span></div></section><section class="cfgsec" id="set-notify"><p class="cfgdesc">Escolha quando o SEO Spider avisa você.</p><hr class="cfghr"><label class="check"><input type="checkbox" data-set="notify_crawl" checked> Notificar quando o crawl terminar</label><label class="check"><input type="checkbox" data-set="notify_analysis" checked> Notificar quando a análise de crawl terminar</label><label class="check"><input type="checkbox" data-set="notify_sound"> Tocar um som ao notificar</label><div><button type="button" class="tbtn" id="setNotifyTest">Testar notificação</button> <span id="setNotifyMsg" class="muted"></span></div></section></div></section>
+    </div>
+    <div class="wfoot"><span class="sp"></span><button class="tbtn primary" data-close>OK</button></div>
+  </div>
+</div>
+
+<div class="modal" id="aboutModal" hidden>
+  <div class="window">
+    <div class="wtitle">Sobre <button class="wclose" data-close>✕</button></div>
+    <div class="wbody"><p><b>SEO Spider</b> — rastreador de SEO local (FastAPI + httpx + Playwright).</p>
+      <p class="muted">Atalhos: ↑/↓ navegam pelas linhas, Ctrl/Shift+clique seleciona várias, botão direito abre o menu de contexto.</p></div>
+    <div class="wfoot"><button class="tbtn primary" data-close>OK</button></div>
+  </div>
+</div>
+
+<script src="i18n.js?v=38"></script>
+<script src="js_library.js?v=38"></script>
+<script src="app.js?v=39"></script>
+<script src="advsearch.js?v=38"></script>
+<script src="serp.js?v=38"></script>
+<script src="menus.js?v=38"></script>
+<script src="cfgwin.js?v=39"></script>
+<script src="extraction.js?v=2"></script>
+<script src="settings.js?v=38"></script>
+</body>
+</html>
